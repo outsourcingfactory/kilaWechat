@@ -1,0 +1,18 @@
+<!--pages/goshare/goshare.wxml-->
+<view class='container'>
+  <image src='https://img.hongrenshuo.com.cn/h5/livebroad-yindao-ymz.png?v=1' class='bgIMage' mode="widthFix"></image>
+  <view class='bottom' bindtap='copyTBL'>
+    <view class='title'>
+      下载方法
+    </view>
+    <view class="line">
+      1. 复制链接到手机浏览器打开
+    </view>
+    <view class='line'>
+      2. 到手机应用商店中搜索  克拉克拉
+    </view>
+    <view class='btn'>
+      复制链接
+    </view>
+  </view>
+</view>

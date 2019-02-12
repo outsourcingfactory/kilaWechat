@@ -1,0 +1,44 @@
+/* pages/goshare/goshare.wxss */
+.container{
+ 
+}
+.bgIMage{
+  width: 100%;
+  height: auto;
+}
+.bottom{
+  width: 100%;
+  position: fixed;
+  height: 360rpx;
+  background: #fff;
+  font-size: 30rpx;
+  color: #27292B;
+  left: 0;
+  bottom: 0;
+  border-radius: 18rpx 18rpx 0 0;
+  text-align: center;
+  padding: 40rpx 48rpx;
+  box-sizing: border-box;
+}
+.title{
+  font-weight: 500;
+  line-height: 42rpx;
+  margin-bottom: 22rpx;
+}
+.line{
+  line-height: 42rpx;
+  margin-top: 4rpx;
+}
+
+.btn{
+  width: 100%;
+  height: 88rpx;
+  background: #FF7B92;
+  border-radius: 18rpx;
+  text-align: center;
+  line-height: 88rpx;
+  color: #FFFFFF;
+  font-size: 30rpx;
+  font-weight: 500;
+  margin-top: 28rpx;
+}

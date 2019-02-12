@@ -1,0 +1,243 @@
+/**index.wxss**/
+
+.container {
+  width: 100%;
+  /* height: 100%; */
+}
+.fufei{
+  position: absolute;
+  background: url('https://img.hongrenshuo.com.cn/h5/livebroad-fufei-ymz.png') no-repeat center;
+  background-size: 100%;
+  width: 76rpx;
+  height: 36rpx;
+  right: 0;
+  top: 0;
+  color: #fff;
+  text-align: center;
+  line-height: 36rpx;
+  font-size: 24rpx;
+}
+.content {
+  padding: 24rpx 24rpx 140rpx;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.type-title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: #2b2727;
+  font-size: 15px;
+}
+
+.title-image {
+  width: 28rpx;
+  height: 34rpx;
+  margin-right: 12rpx;
+}
+
+.list-content {
+  width: 100%;
+  margin-top: 24rpx;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.list-item {
+  width: 340rpx;
+  margin-bottom: 40rpx;
+}
+
+.normal-item {
+  width: 340rpx;
+}
+
+.normal-item image {
+  width: 340rpx;
+  height: 188rpx;
+  display: block;
+}
+
+.cover-image-content {
+  width: 100%;
+  height: 188rpx;
+  position: relative;
+  border-radius: 18rpx;
+}
+
+.cover-image-content .backpIC {
+  width: 100%;
+  height: 100%;
+  border-radius: 18rpx;
+}
+
+.cover-bottom-mask {
+  width: 100%;
+  height: 30%;
+  border-radius: 0 0 18rpx 18rpx;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
+}
+
+.cover-mask {
+  width: 100%;
+  height: 100%;
+  border-radius: 18rpx;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.room-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 12rpx;
+  box-sizing: border-box;
+  font-size: 10px;
+  color: #fff;
+  position: absolute;
+  bottom: 12rpx;
+}
+
+.room-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.room-number {
+  /* width: 100rpx; */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 4rpx;
+}
+
+.roomRight {
+  display: flex;
+  align-items: center;
+}
+
+.gif {
+  width: 20rpx;
+  height: 22rpx;
+  display: block;
+  margin-right: 8rpx;
+}
+
+.room-title {
+  width: 100%;
+  font-size: 15px;
+  color: #27292b;
+  line-height: 42rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+  margin-top: 14rpx;
+}
+
+.room-tags {
+  width: 100%;
+  height: 36rpx;
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  margin-top: 8rpx;
+}
+
+/* 底部icon */
+
+.bottomIcon {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.bottomIcon image {
+  width: 70rpx;
+  height: 60rpx;
+  margin: 0 auto;
+  display: block;
+}
+
+.tips {
+  text-align: center;
+  color: #989a9b;
+  font-size: 30rpx;
+  margin-bottom: 26rpx;
+}
+
+.bottomIcon .lv {
+  color: #7fa6fa;
+}
+
+.loading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60rpx;
+}
+.meile {
+  font-size: 26rpx;
+  color: #000;
+}
+.loading image {
+  width: 30rpx;
+  height: 30rpx;
+  margin-left: 20rpx;
+}
+
+
+.modal-content {
+  width: 600rpx;
+  border-radius: 18rpx;
+  background: #fff;
+  padding: 60rpx 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.close {
+  width: 94rpx;
+  height: 114rpx;
+  position: absolute;
+  right: 0rpx;
+  top: 0rpx;
+}
+.close image{
+  width: 100%;
+  height: 100%;
+}
+
+.tips-goApp {
+  color: #27292b;
+  font-size: 30rpx;
+  text-align: center;
+}
+
+.tips-goApp .title {
+  font-size: 36rpx;
+  font-weight: 500;
+  margin-bottom: 32rpx;
+}
+
+.tips-goApp .goAppBtn {
+  margin: 40rpx auto 0;
+  width: 494rpx;
+  height: 88rpx;
+  text-align: center;
+  line-height: 88rpx;
+  color: #fff;
+  background: #ff8383;
+  border-radius: 18rpx;
+}

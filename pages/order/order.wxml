@@ -1,0 +1,42 @@
+<!--pages/order/order.wxml-->
+<view class='container'>
+  <view class='logo'>
+    <image src='../../images/livebroad-kelalogo-ymz.png'></image>
+  </view>
+  <view class='user'>
+    <view class='headPic'>
+      <image src='{{avatar}}'></image>
+    </view>
+    <view class='desc'>
+      <view class='nickName'>{{nickname}}</view>
+      <view class='inrod'>{{boUser.introduction || '暂无简介'}}</view>
+    </view>
+  </view>
+  <view class='itemList'>
+    <view class="itemli {{index==chooseIndex?'active-item':''}}" wx:for="{{goodList}}" wx:key="index" wx:if="{{index<3}}" bindtap='getChoose' data-index="{{index}}">
+      <view class='douOut'>
+        <image src='../../images/livebroad-dou-ymz.png' class='douImage'></image>
+        <view class='num'>{{item.golds}}</view>
+      </view>
+      <view class='price'>
+        <image src='../../images/livebroad-qian-ymz.png' class='qianImage'></image>
+        <view class='num'>{{item.price}}</view>
+      </view>
+    </view>
+  </view>
+  <view class='itemList itemList1'>
+    <view class="itemli {{index==chooseIndex?'active-item':''}}" wx:for="{{goodList}}" wx:key="index" wx:if="{{index>2 && index<6}}" bindtap='getChoose' data-index="{{index}}">
+      <view class='douOut'>
+        <image src='../../images/livebroad-dou-ymz.png' class='douImage'></image>
+        <view class='num'>{{item.golds}}</view>
+      </view>
+      <view class='price'>
+        <image src='../../images/livebroad-qian-ymz.png' class='qianImage'></image>
+        <view class='num'>{{item.price}}</view>
+      </view>
+    </view>
+  </view>
+  <view class='btn' bindtap="goOrder">
+    确定
+  </view>
+</view>

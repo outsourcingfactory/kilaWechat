@@ -1,0 +1,98 @@
+/* pages/order/order.wxss */
+.container{
+  width: 100%;
+  padding: 40rpx 24rpx 0;
+  box-sizing: border-box;
+}
+.logo{
+  width: 228rpx;
+  height: 62rpx;
+}
+.logo image{
+  width: 100%;
+  height: 100%;
+}
+.user{
+  margin-top: 60rpx;
+  display: flex;
+}
+.user .headPic{
+  width: 80rpx;
+  height: 80rpx;
+}
+.user .headPic image{
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+}
+.desc{
+  margin-left: 20rpx;
+
+}
+.nickName{
+  font-size: 30rpx;
+  color: #27292B;
+}
+.inrod{
+  font-size: 26rpx;
+  color: #989A9B;
+}
+.itemList{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 48rpx;
+}
+.itemli{
+  width: 220rpx;
+  /* height: 166rpx; */
+  border-radius: 18rpx;
+  border: 1px solid #C7C7C7;
+  /* padding: 36rpx 0; */
+  box-sizing: border-box;
+}
+.active-item{
+   border: 1px solid #FF8383;
+}
+.itemList1{
+  margin-top: 24rpx;
+}
+.douOut{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  color: #27292B;
+  margin: 36rpx 0;
+}
+.douImage{
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: 8rpx;
+}
+.price{
+  width: 100%;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FF8383;
+  font-size: 26rpx;
+  background: #FAFAFA;
+  border-radius: 0 0 18rpx 18rpx;
+}
+.qianImage{
+  width: 22rpx;
+  height: 22rpx;
+  margin-right: 4rpx;
+}
+.btn{
+  width: 100%;
+  height: 88rpx;
+  margin-top: 48rpx;
+  text-align: center;
+  line-height: 88rpx;
+  background: #FF8383;
+  border-radius: 18rpx;
+  color: #fff;
+  font-size: 30rpx;
+}

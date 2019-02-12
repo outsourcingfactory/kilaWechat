@@ -1,0 +1,15 @@
+<!--pages/auth/auth.wxml-->
+<view class='container'>
+  <view class='content'>
+    <image src='https://img.hongrenshuo.com.cn/h5/wxauth-logo-ymz.png' class='kilaLogo'></image>
+    <view class='line'></view>
+    <view class='title'>
+      该小程序由克拉克拉开发，向其提供以下权限即可继续操作
+    </view>
+    <view class='tips'>
+      <view class='dian'></view>
+      获得你的公开信息（昵称、头像等）
+    </view>
+    <button open-type="getUserInfo" bindgetuserinfo='getUser' class='btnBottom'>确认登录</button> 
+  </view>
+</view>

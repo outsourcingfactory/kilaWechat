@@ -1,0 +1,16 @@
+{
+  "pages":[
+    "pages/roomdetail/roomdetail",
+    "pages/index/index",
+    "pages/goshare/goshare",
+    "pages/order/order",
+    "pages/logs/logs",
+    "pages/auth/auth"
+  ],
+  "window":{
+    "backgroundTextStyle":"dark",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "克拉克拉",
+    "navigationBarTextStyle":"black"
+  }
+}

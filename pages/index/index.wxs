@@ -1,0 +1,10 @@
+var filter = {
+    initClass: function (value) {
+        var classname = 'tag-item-color' + value.toString().charAt(value.length - 1);
+        return classname;
+    }
+}
+
+module.exports = {
+    initClass: filter.initClass
+}
