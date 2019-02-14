@@ -1,6 +1,7 @@
 <!--pages/roomdetail/roomdetail.wxml-->
 <wxs module="filter" src="./roomdetail.wxs"></wxs>
-<view class="container" style="background-image: url({{roomDetail.defaultBackgroundPicUrl}});background-size: 100% auto;">
+<!-- 正常直播间 -->
+<view class="container" style="background-image: url({{roomDetail.defaultBackgroundPicUrl}});background-size: 100% auto;" wx:if="{{funcType!=7 && !roomMoney}}">
   <view class="content {{isIphoneX?'iphx':''}}">
     <!-- 顶部 -->
     <view class='top'>
@@ -57,7 +58,6 @@
     <view class='live-play-bg' wx:if="{{roomDetail.funcType == 1 || roomDetail.funcType == 6}}">
       <live-player src="{{roomDetail.rtmpPlayUrl}}" mode="RTC" autoplay bindstatechange="statechange" binderror="error" style="width: {{liveWidth}}rpx; height: {{liveHeight}}rpx;" />
     </view>
-    <!-- <live-player wx:elif="{{roomDetail.funcType == 7}}" src="{{roomDetail.rtmpPlayUrl}}" mode="RTC" autoplay bindstatechange="statechange" binderror="error" style="width:{{windowWidth}}px; height:{{windowHeight}}px" /> -->
     <live-player wx:else src="{{roomDetail.rtmpPlayUrl}}" mode="RTC" autoplay bindstatechange="statechange" binderror="error" style="width: 0; height: 0;" />
     <!-- 谁谁谁进入了直播间 -->
     <view class='goInRoom'>
@@ -71,7 +71,6 @@
           </view>
         </view>
       </view>
-
       <view class='goTequan animated fadeInRight {{filter.goTequanWx(getGoRoomPeople[0].l)}}"' wx:if="{{getGoRoomPeople.length>0 && getGoRoomPeople[0].t==603}}" bindanimationend='animationend' bindtransitionend='animationend'>
         <view class='tequan-level'>{{getGoRoomPeople[0].l}}</view>
         <view class='tequan-nickName'>{{getGoRoomPeople[0].n}}</view>
@@ -85,16 +84,6 @@
         <image src='../../images/livebroad-goHome-ymz.png' class='gohomeIcon'></image>
       </view>
       <!-- 礼物信息气泡 -->
-      <!-- 数组 -->
-      <!-- <view class="giftPao {{giftList.length>0?'giftPao-Active':''}}" wx:if="{{giftList.length>0 && giftList[0].t==220}}" bindanimationend='animationendgift' bindtransitionend='animationendgift'>
-        <image class='headPic' src='{{giftList[0].a}}'></image>
-        <view class='giftPao-desc'>
-          <view class='giftPao-nickName'>{{giftList[0].n}}</view>
-          <view class='giftPao-desctips'>送了{{giftList[0].c.giftReceiverName}}{{giftList[0].c.name}}</view>
-        </view>
-        <image src='{{giftList[0].c.pic}}' class='giftPao-giftImage'></image>
-        <view class='giftPao-num'>x{{giftList[0].c.doubleCount}}</view>
-      </view> -->
       <view class="giftPao {{giftList!=''?'giftPao-Active':''}}" wx:if="{{giftList!=''&& giftList.t==220}}">
         <image class='headPic' src='{{giftList.a}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center'></image>
         <view class='giftPao-desc'>
@@ -105,7 +94,6 @@
         <view class='giftPao-num'>x{{giftList.c.doubleCount}}</view>
       </view>
       <view class="messOutHidd">
-        <!-- <cover-view class="messageList" style='max-height:{{viewheight}}'> -->
         <scroll-view class="messageList" scroll-y="{{true}}" scroll-with-animation="{{true}}" scroll-top="{{dataList.length*1000}}" style='max-height:{{viewheight}}'>
           <view class='messageLiOut' wx:for="{{dataList}}" wx:key="index">
             <view class="messageLi {{item.l>49?'active-messageLi':''}}" wx:if="{{item.t == 200}}">
@@ -116,14 +104,14 @@
               </view>
             </view>
             <view class="messageLi {{item.l>49?'active-messageLi':''}}" wx:elif="{{item.t == 211}}">
-              <view class='level level1'>{{item.l}}</view>
+              <view class="level {{filter.levelNum(item.l)}}">{{item.l}}</view>
               <image class='klogiImage' src='../../images/cardImage-klogo-ymz.png' wx:if="{{item.vip == 1}}"></image>
               <view class="writeDesc {{item.vip == 1?'writeDescLeft':''}}">
                 <text class='messageLi-nickName'>{{item.n}}：</text>我给豆咖点个赞
               </view>
             </view>
             <view class="messageLi {{item.l>49?'active-messageLi':''}}" wx:elif="{{item.t == 230}}">
-              <view class='level level1'>{{item.l}}</view>
+              <view class="level {{filter.levelNum(item.l)}}">{{item.l}}</view>
               <image class='klogiImage' src='../../images/cardImage-klogo-ymz.png' wx:if="{{item.vip == 1}}"></image>
               <view class="writeDesc {{item.vip == 1?'writeDescLeft':''}}">
                 <text class='messageLi-nickName'>{{item.n}}：</text>
@@ -131,7 +119,7 @@
               </view>
             </view>
             <view class="messageLi {{item.l>49?'active-messageLi':''}}" wx:elif="{{item.t == 220}}">
-              <view class='level level1'>{{item.l}}</view>
+              <view class="level {{filter.levelNum(item.l)}}">{{item.l}}</view>
               <image class='klogiImage' src='../../images/cardImage-klogo-ymz.png' wx:if="{{item.vip == 1}}"></image>
               <view class="writeDesc {{item.vip == 1?'writeDescLeft':''}}">
                 <text class='messageLi-nickName'>{{item.n}}：</text>
@@ -142,205 +130,435 @@
         </scroll-view>
       </view>
     </view>
-    <!-- 底部 -->
-    <cover-view class="bottom {{inputFocus?'bottomTop':''}}" wx:if="{{!showBottom}}" style="bottom:{{bottom}}px">
-      <!-- <view class='sayMore'>
-        说点什么..
-      </view> -->
-      <cover-view class='cover-input' bindtap='tapInput'>
-        <cover-view class="{{inputFocus?'sayMore sayMoreTop':'sayMore'}}">{{searchinput}}</cover-view>
-        <input class="{{inputFocus?'sayMore sayMoreTop':'sayMore'}} inputOrder" placeholder-style="color:#{{inputFocus?'989A9B':'FFFFFF'}};" adjust-position="{{false}}" confirm-typ="send" bindconfirm="bindconfirmFun" bindfocus="foucus" bindblur="blur" value="{{searchinput}}"
-          focus='{{inputFocus}}' bindinput="getinputValue"></input>
-      </cover-view>
-      <cover-view class='right' wx:if="{{!inputFocus}}">
-        <cover-view class='iconout' catchtap='getloadToast' data-indextype='1'>
-          <cover-image class='phone' src='../../images/cardImage-phone-ymz.png'></cover-image>
-        </cover-view>
-        <cover-view class='iconout' catchtap='getloadToast' data-indextype='2'>
-          <cover-image class='ask' src='../../images/cardImage-ask-ymz.png'></cover-image>
-        </cover-view>
-        <button open-type="share">
-          <cover-view class='iconout'>
-            <cover-image class='share' src='../../images/cardImage-share-ymz.png'></cover-image>
-          </cover-view>
-        </button>
-        <!-- <view class='iconout'>
-          
-        </view> -->
-        <cover-view class='iconout coloryuan' bindtap='goBottomShow' wx:if="{{platform == 'android'}}">
-          <!-- <cover-view class='iconout coloryuan' catchtap='goBottomShow'> -->
-          <cover-image class='gift' src='../../images/cardImage-gift-ymz.png'></cover-image>
-        </cover-view>
-        <cover-view class='goApp' bindtap='goshare'>
-          启动APP
-        </cover-view>
-      </cover-view>
-    </cover-view>
   </view>
-  <!-- 个人主页 -->
-  <cover-view class='modal' wx:if="{{showModal}}">
-    <cover-view class='modal-content'>
-      <cover-view class='close' bindtap='closeCard'>
-        <cover-image src='https://img.hongrenshuo.com.cn/h5/whitenovel-closemodal-ymz.png'></cover-image>
-      </cover-view>
-      <cover-view class='userInfo' wx:if="{{showUserCard}}">
-        <cover-view class='userInfo-headPic'>
-          <cover-image src="{{roomDetail.userInfo.headPortraitUrl}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center" class='headPicImage'></cover-image>
-          <cover-image class='lelalogo' src='../../images/cardImage-klogo-ymz.png' wx:if="{{roomDetail.userInfo.userType == 1}}"></cover-image>
-        </cover-view>
-        <cover-view class='nickName'>
-          <cover-view class="nickIn">{{roomDetail.userInfo.nickname}}</cover-view>
-          <cover-view class="level {{filter.levelNum(roomDetail.userInfo.level)}}">
-            <cover-image src="{{filter.levelUrl(roomDetail.userInfo.level)}}" class='levelImage'></cover-image>
-            <cover-view class='card-leve'>{{roomDetail.userInfo.level}}</cover-view>
+</view>
+<!-- 虚拟直播间 -->
+<view class="container" style="background-image: url({{roomDetail.defaultBackgroundPicUrl}});background-size: 100% auto;" wx:if="{{funcType==7 && !roomMoney}}">
+  <live-player src="{{roomDetail.rtmpPlayUrl}}" mode="RTC" autoplay bindstatechange="statechange" binderror="error" style="width:{{windowWidth}}px; height:{{windowHeight}}px" class="xinuPlayer" object-fit="fillCrop">
+    <cover-view class="content content1 {{isIphoneX?'iphx':''}}">
+      <!-- 顶部 -->
+      <cover-view class='top zindex1'>
+        <cover-view class='topLeft'>
+          <cover-view class='headPic' bindtap='showHeadCard'>
+            <cover-image src="{{roomDetail.userInfo.headPortraitUrl}}" class='headPicImage'></cover-image>
+            <cover-image class='lelalogom' src='../../images/cardImage-klogo-ymz.png' wx:if="{{roomDetail.userInfo.userType == 1}}"></cover-image>
           </cover-view>
-          <cover-image src="{{roomDetail.userInfo.gender == 1?'https://img.hongrenshuo.com.cn/h5/dongtai-manpng-ymz.png':'https://img.hongrenshuo.com.cn/h5/dongtai-womenpng-ymz.png'}}" class='sexIcon'></cover-image>
-        </cover-view>
-        <!-- <cover-view class='renz'>认证：{{roomDetail.userInfo.vipInfo}}</cover-view> -->
-        <cover-view class='desc'>
-          {{roomDetail.userInfo.introduction}}
-        </cover-view>
-        <cover-view class="userInfo-guan {{isFollow?'userInfo-guan-gray':''}}" bindtap='goAdd'>
-          <!-- <cover-view class="userInfo-add"></cover-view> -->
-          <cover-view>{{isFollow?'已关注':'关注'}}</cover-view>
-        </cover-view>
-        <cover-view class='userFans'>
-          <cover-view class='userFans-left'>
-            <cover-view>{{boUser.statisticInfo.concernNumber}}</cover-view>
-            <cover-view class='title'>关注</cover-view>
-          </cover-view>
-          <cover-view class='userFans-middle'>
-            <cover-view>{{boUser.statisticInfo.followerNumber}}</cover-view>
-            <cover-view class='title'>粉丝</cover-view>
-          </cover-view>
-          <cover-view class='userFans-right'>
-            <cover-view>{{filter.getW(roomDetail.diamonds)}}</cover-view>
-            <cover-view class='title'>钻石</cover-view>
-          </cover-view>
-        </cover-view>
-      </cover-view>
-      <cover-view class="tips-goApp" wx:if="{{goDownCard}}">
-        <cover-view class='title'>温馨提示</cover-view>
-        <cover-view class='line'>下载克拉克拉APP，</cover-view>
-        <cover-view class="line">{{downTips}}</cover-view>
-        <cover-view class='goAppBtn' bindtap='goshare'>启动APP</cover-view>
-      </cover-view>
-
-    </cover-view>
-  </cover-view>
-  <!-- 直播结束 -->
-  <cover-view class='modal' wx:if="{{shouGoList}}">
-    <cover-view class='modal-content'>
-      <cover-view class='close' bindtap='goList'>
-        <cover-image src='https://img.hongrenshuo.com.cn/h5/whitenovel-closemodal-ymz.png'></cover-image>
-      </cover-view>
-      <cover-view class='userInfo' wx:if="{{showEndCard}}">
-        <cover-view class='end-title'>直播已结束</cover-view>
-        <cover-view class='end-time'>{{roomDetail.costTime}}</cover-view>
-        <cover-view class='userInfo-headPic'>
-          <cover-image src="{{roomDetail.userInfo.headPortraitUrl}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center" class='headPicImage'></cover-image>
-          <cover-image class='lelalogo' src='../../images/cardImage-klogo-ymz.png' wx:if="{{roomDetail.userInfo.userType == 1}}"></cover-image>
-        </cover-view>
-        <cover-view class='nickName'>
-          {{roomDetail.userInfo.nickname}}
-        </cover-view>
-        <cover-view class='userFans'>
-          <cover-view class='userFans-left'>
-            <cover-view>{{roomDetail.likeCount}}</cover-view>
-            <cover-view class='title'>点赞</cover-view>
-          </cover-view>
-          <cover-view class='userFans-middle'>
-            <cover-view>{{roomDetail.watchNumber}}</cover-view>
-            <cover-view class='title'>累计收听</cover-view>
-          </cover-view>
-        </cover-view>
-        <cover-view class="userInfo-guan {{isFollow?'userInfo-guan-gray':''}}" bindtap='goAdd'>
-          <cover-view class="userInfo-add">+</cover-view>
-          <cover-view>{{isFollow?'已关注':'关注'}}</cover-view>
-        </cover-view>
-      </cover-view>
-      <!-- <cover-view class="tips-goApp">
-        <cover-view class='title'>温馨提示</cover-view>
-        <cover-view class='line'>下载克拉克拉APP，</cover-view>
-        <cover-view class="line"></cover-view>
-        <cover-view class='goAppBtn' bindtap='goshare'>启动APP</cover-view>
-      </cover-view> -->
-    </cover-view>
-  </cover-view>
-  <!-- 是一个人 -->
-  <cover-view class='modal' wx:if="{{oneMan}}">
-    <cover-view class='modal-content'>
-      <cover-view class='close' bindtap='goList'>
-        <cover-image src='https://img.hongrenshuo.com.cn/h5/whitenovel-closemodal-ymz.png'></cover-image>
-      </cover-view>
-      <cover-view class="tips-goApp">
-        <cover-view class='title'>温馨提示</cover-view>
-        <cover-view class='line'>你当前正在直播呦</cover-view>
-        <cover-view class="line">请返回app直播间</cover-view>
-        <cover-view class='goAppBtn' bindtap='goList'>返回首页</cover-view>
-      </cover-view>
-    </cover-view>
-  </cover-view>
-  <!-- 礼物面板 -->
-  <cover-view class='giftBgOut' wx:if="{{showBottom}}" catchtap='closeGift'>
-    <cover-view class="giftBg">
-      <cover-image src='https://img.hongrenshuo.com.cn/h5/livebroad-giftbg-ymz.png' class='coverBg-image'></cover-image>
-      <cover-view class='giftBg-con'>
-        <cover-view class='giftbg-title'>
-          <cover-view class='giftbg-title-li active-color-li'>
-            礼物
-          </cover-view>
-          <cover-view class='middle-line'></cover-view>
-          <cover-view class='giftbg-title-li middleLi' catchtap='getloadToast' data-indextype='3'>
-            专属
-          </cover-view>
-          <cover-view class='middle-line'></cover-view>
-          <cover-view class='giftbg-title-li' catchtap='getloadToast' data-indextype='3'>
-            会员
-          </cover-view>
-        </cover-view>
-        <cover-view class='gift-user'>
-          <cover-view class="gift-user-left">
-            <cover-view class='leftName'>赠送给：</cover-view>
-            <cover-image src='{{roomDetail.userInfo.headPortraitUrl}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center' class='headPic'></cover-image>
+          <cover-view class='desc'>
             <cover-view class='nickName'>{{roomDetail.userInfo.nickname}}</cover-view>
+            <cover-view class="lineTwo">
+              {{watchNum}}人
+              <cover-view class="redYuan" wx:if="{{!showEndCard}}"></cover-view>
+              <cover-view class='time' wx:if="{{!showEndCard}}">{{chaTime}}</cover-view>
+            </cover-view>
           </cover-view>
-          <cover-view class="ziliao" catchtap='getZiLiao'>
-            资料
+          <cover-view class='add' bindtap='goAdd' wx:if="{{!isFollow}}">
+            <cover-image src='../../images/livebroad-add-ymz.png'></cover-image>
           </cover-view>
         </cover-view>
-        <cover-view class='giftList' bindchange='swiperChange'>
-          <!-- <cover-view  class='gift-item-out'> -->
-          <cover-view class='gift-item'>
-            <cover-view class="gift-out {{chooseGiftIndex==index ?'gift-Active':''}}" catchtap='chooseGift' wx:for="{{giftDataList}}" wx:key="index" data-index="{{index}}" wx:for-index="index" wx:if="{{item.id != 14002}}">
-              <cover-view>
-                <cover-image class="giftImage {{index == 0?'giftImageOne':''}}" src='{{item.pic}}'></cover-image>
-                <cover-view class="giftName {{index == 0?'giftNameOne':''}}">{{item.name}}</cover-view>
-                <cover-view class="giftNum">{{filter.thousands(item.price)}}红豆</cover-view>
+        <cover-view class='topRight'>
+          <cover-image src='../../images/liveborad-kilashui-ymz.png'></cover-image>
+        </cover-view>
+      </cover-view>
+      <!-- 上面钻石等个人信息 -->
+      <cover-view class='userDescOut'>
+        <cover-view class="userDesc userDescm1">
+          <cover-view class='userDescLeft'>
+            <cover-view class='zuanOut'>
+              {{filter.thousands(diamond)}}
+              <cover-image src='../../images/livebroad-topzuan-ymz.png' class='zuanTop'></cover-image>
+            </cover-view>
+          </cover-view>
+          <cover-view class='userDescRight'>
+            <cover-view class='headPic headPic{{index+1}}' wx:for="{{rankList}}" wx:key="index" wx:for-item="item">
+              <cover-image src="{{item.headPortraitUrl}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center" class='head'></cover-image>
+              <cover-image src='../../images/livebroad-guan{{index+1}}-ymz.png' class='guan'></cover-image>
+            </cover-view>
+            <!-- <cover-view class='goHead'>
+            <cover-image src='../../images/livebroad-goarrow-ymz.png' class='arrow'></image>
+          </cover-view> -->
+          </cover-view>
+        </cover-view>
+        <!-- wx:if="{{rankResultNum>0}}" -->
+        <cover-view class='levelIconOut' wx:if="{{rankResultNum>0}}">
+          <cover-image class='levelIn' src='https://img.hongrenshuo.com.cn/h5/cardImage-level1-ymz.png'></cover-image>
+          <cover-view class='levelWriteNum'>{{rankResultNum}}</cover-view>
+        </cover-view>
+        <cover-image class='level' src='https://img.hongrenshuo.com.cn/h5/cardImage-levelnor-ymz.png' wx:else></cover-image>
+      </cover-view>
+      <cover-view class="userDesc userDescTwo userDescm">
+        <cover-view class='userDescLeft userDescLeft1'>
+          <cover-view class="tag-item {{filter.initClass(items.id)}}" wx:for="{{roomDetail.tagList}}" wx:key="index" wx:for-item="items">{{items.name}}</cover-view>
+        </cover-view>
+        <!-- <cover-view class='askMai'>
+          主播正在回答中
+        </cover-view> -->
+      </cover-view>
+      <!-- 谁谁谁进入了直播间 -->
+      <cover-view class='goInRoom goInRoomm'>
+        <cover-view class="gonormal gonormal-Active" wx:if="{{getGoRoomPeople.length>0 && getGoRoomPeople[0].t==101}}" bindanimationend='animationend'>
+          <cover-view class="messageLim-top">
+            <cover-view class="messleft">
+              <cover-view class='levelm {{filter.levelNumm(getGoRoomPeople[0].l)}}'>
+                <cover-image src="{{filter.levelImage(getGoRoomPeople[0].l)}}" class='levelImageIcon'></cover-image>
+                <cover-view class='levelNumWri'>{{getGoRoomPeople[0].l}}</cover-view>
+              </cover-view>
+            </cover-view>
+            <cover-image class='klogiImagem' src='../../images/cardImage-klogo-ymz.png' wx:if="{{item.vip == 1}}"></cover-image>
+            <cover-view class="writeDescm">
+              <cover-view class="messageLi-nickNamem" style='font-size:28rpx;color:#e77c86'>{{getGoRoomPeople[0].n}}：进入直播间</cover-view>
+            </cover-view>
+          </cover-view>
+        </cover-view>
+      </cover-view>
+      <cover-view class='goInRoom goInRoomTequan'>
+        <cover-view class='goTequanm animated fadeInRight' wx:if="{{getGoRoomPeople.length>0 && getGoRoomPeople[0].t==603}}" bindanimationend='animationend' bindtransitionend='animationend'>
+          <cover-image src='{{getGoRoomPeople[0].l}}' class='goTequanBgImage'></cover-image>
+          <cover-view class='tequanOut'>
+            <cover-view class='tequan-level'>{{getGoRoomPeople[0].l}}</cover-view>
+            <cover-view class='tequan-nickName'>{{getGoRoomPeople[0].n}}</cover-view>
+            <cover-view class='tequanTips'>:进入直播间</cover-view>
+          </cover-view>
+        </cover-view>
+      </cover-view>
+      <!-- 信息流 -->
+      <cover-view class="view-out zindex1" id='mjltest' style="padding-bottom:{{isIphoneX?'120rpx':'80rpx'}}">
+        <!-- 返回首页按钮 wx:if="{{showshare == 'room'}}"-->
+        <cover-view class='gohome' catchtap='goList' wx:if="{{showshare == 'room'}}">
+          <cover-image src='../../images/livebroad-goHome-ymz.png' class='gohomeIcon'></cover-image>
+        </cover-view>
+        <!-- 礼物信息气泡 -->
+        <cover-view class="giftPao {{giftList!=''?'giftPao-Active':''}}" wx:if="{{giftList!=''&& giftList.t==220}}">
+          <cover-image class='headPic' src='{{giftList.a}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center'></cover-image>
+          <cover-view class='giftPao-desc'>
+            <cover-view class='giftPao-nickName'>{{giftList.n}}</cover-view>
+            <cover-view class='giftPao-desctips'>送了{{giftList.c.giftReceiverName}}{{giftList.c.name}}</cover-view>
+          </cover-view>
+          <cover-image src='{{giftList.c.pic}}' class='giftPao-giftImage'></cover-image>
+          <cover-view class='giftPao-num'>x{{giftList.c.doubleCount}}</cover-view>
+        </cover-view>
+        <cover-view class="messOutHidd">
+          <!-- 虚拟直播间信息流 -->
+          <!-- scroll-top="{{dataList.length*300}}" -->
+          <cover-view class="messageListm" scroll-top="{{dataList.length*300}}" style='max-height:{{viewheight}}'>
+            <cover-view class='messageLiOutm' wx:for="{{dataList}}" wx:key="index">
+              <cover-view class="messageLim {{item.l>49?'active-messageLim':''}}" wx:if="{{item.t == 200}}">
+                <cover-view class="messleft">
+                  <cover-view class='levelm {{filter.levelNumm(item.l)}}'>
+                    <cover-image src="{{filter.levelImage(item.l)}}" class='levelImageIcon'></cover-image>
+                    <cover-view class='levelNumWri'>{{item.l}}</cover-view>
+                  </cover-view>
+                </cover-view>
+                <cover-image class='klogiImagem' src='../../images/cardImage-klogo-ymz.png' wx:if="{{item.vip == 1}}"></cover-image>
+                <cover-view class="writeDescm {{item.vip == 1?'writeDescLeftm':''}} {{item.m == 1 || item.u == roomDetail.userInfo.id?'writeDescColorm':''}}">
+                  <cover-view class="messageLi-nickNamem">{{item.n}}：{{item.c}}</cover-view>
+                  <!-- <cover-view class="fff {{item.m == 1 || item.u == roomDetail.userInfo.id?'writeDescColor':''}}">{{item.n}}：</cover-view> -->
+                </cover-view>
+              </cover-view>
+              <cover-view class="messageLim {{item.l>49?'active-messageLim':''}}" wx:elif="{{item.t == 211}}">
+                <cover-view class="messleft">
+                  <cover-view class='levelm {{filter.levelNumm(item.l)}}'>
+                    <cover-image src="{{filter.levelImage(item.l)}}" class='levelImageIcon'></cover-image>
+                    <cover-view class='levelNumWri'>{{item.l}}</cover-view>
+                  </cover-view>
+                </cover-view>
+                <cover-image class='klogiImagem' src='../../images/cardImage-klogo-ymz.png' wx:if="{{item.vip == 1}}"></cover-image>
+                <cover-view class="writeDescm {{item.vip == 1?'writeDescLeftm':''}}">
+                  <cover-view class='messageLi-nickNamem'>{{item.n}}：我给豆咖点个赞</cover-view>
+                  <!-- <cover-view style='display:inline'>我给豆咖点个赞</cover-view> -->
+                </cover-view>
+              </cover-view>
+              <cover-view class="messageLim {{item.l>49?'active-messageLim':''}}" wx:elif="{{item.t == 230}}">
+                <cover-view class="messleft">
+                  <cover-view class='levelm {{filter.levelNumm(item.l)}}'>
+                    <cover-image src="{{filter.levelImage(item.l)}}" class='levelImageIcon'></cover-image>
+                    <cover-view class='levelNumWri'>{{item.l}}</cover-view>
+                  </cover-view>
+                </cover-view>
+                <cover-image class='klogiImagem' src='../../images/cardImage-klogo-ymz.png' wx:if="{{item.vip == 1}}"></cover-image>
+                <cover-view class="writeDescm {{item.vip == 1?'writeDescLeftm':''}}">
+                  <cover-view class='messageLi-nickNamem'>{{item.n}}：我关注了豆咖</cover-view>
+                  <!-- <cover-view style='color:#FE879D;display:inline'>我关注了豆咖</cover-view> -->
+                </cover-view>
+              </cover-view>
+              <cover-view class="messageLim {{item.l>49?'active-messageLim':''}}" wx:elif="{{item.t == 220}}">
+                <cover-view class="messleft">
+                  <cover-view class='levelm {{filter.levelNumm(item.l)}}'>
+                    <cover-image src="{{filter.levelImage(item.l)}}" class='levelImageIcon'></cover-image>
+                    <cover-view class='levelNumWri'>{{item.l}}</cover-view>
+                  </cover-view>
+                </cover-view>
+                <cover-image class='klogiImagem' src='../../images/cardImage-klogo-ymz.png' wx:if="{{item.vip == 1}}"></cover-image>
+                <cover-view class="writeDescm {{item.vip == 1?'writeDescLeftm':''}}">
+                  <cover-view class='messageLi-nickNamem' style='color:#fcb932;display:inline'>{{item.n}}：我送了{{item.c.giftReceiverName || '豆咖'}}{{item.c.doubleCount}}个{{item.c.name}}</cover-view>
+                  <!-- <cover-view style='color:#fcb932;display:inline'>我送了{{item.c.giftReceiverName || '豆咖'}}{{item.c.doubleCount}}个{{item.c.name}}</cover-view> -->
+                </cover-view>
               </cover-view>
             </cover-view>
           </cover-view>
         </cover-view>
-        <!-- </cover-view> -->
-        <cover-view class='bottomBtn'>
-          <cover-view class='bottom-left'>
-            <cover-view class='chong' catchtap='goOrder'>充值</cover-view>
-            <cover-view class='hdNum'>{{gold}}红豆</cover-view>
-          </cover-view>
-          <cover-view class='bottom-right' catchtap='goSendGift'>发送</cover-view>
+      </cover-view>
+    </cover-view>
+  </live-player>
+</view>
+<!-- 底部 -->
+<cover-view class="bottom {{inputFocus?'bottomTop':''}}" wx:if="{{!showBottom}}" style="bottom:{{bottom}}px" wx:if="{{!roomMoney}}">
+  <!-- <view class='sayMore'>
+    说点什么..
+  </view> -->
+  <cover-view class='cover-input' bindtap='tapInput'>
+    <cover-view class="{{inputFocus?'sayMore sayMoreTop':'sayMore'}}">{{searchinput}}</cover-view>
+    <input class="{{inputFocus?'sayMore sayMoreTop':'sayMore'}} inputOrder" placeholder-style="color:#{{inputFocus?'989A9B':'FFFFFF'}};" adjust-position="{{false}}" confirm-typ="send" bindconfirm="bindconfirmFun" bindfocus="foucus" bindblur="blur" value="{{searchinput}}"
+      focus='{{inputFocus}}' bindinput="getinputValue"></input>
+  </cover-view>
+  <cover-view class='right' wx:if="{{!inputFocus}}">
+    <cover-view class='iconout' catchtap='getloadToast' data-indextype='1'>
+      <cover-image class='phone' src='../../images/cardImage-phone-ymz.png'></cover-image>
+    </cover-view>
+    <cover-view class='iconout' catchtap='getloadToast' data-indextype='2'>
+      <cover-image class='ask' src='../../images/cardImage-ask-ymz.png'></cover-image>
+    </cover-view>
+    <button open-type="share">
+      <cover-view class='iconout'>
+        <cover-image class='share' src='../../images/cardImage-share-ymz.png'></cover-image>
+      </cover-view>
+    </button>
+    <!-- wx:if="{{platform == 'android'}}" -->
+    <cover-view class='iconout coloryuan' bindtap='goBottomShow'>
+      <cover-image class='gift' src='../../images/cardImage-gift-ymz.png'></cover-image>
+    </cover-view>
+    <cover-view class='goApp' wx:if="{{platform == 'android'}}" catchtap='goshare'>
+      启动APP
+    </cover-view>
+    <button open-type="launchApp" app-parameter="{{roomscheme}}" binderror="launchAppError" class='goApp' wx:else>
+      启动APP
+    </button>
+  </cover-view>
+</cover-view>
+<!-- 个人主页 以及点击问号等弹窗 -->
+<cover-view class='modal' wx:if="{{showModal}}">
+  <cover-view class='modal-content'>
+    <cover-view class='close' bindtap='closeCard'>
+      <cover-image src='https://img.hongrenshuo.com.cn/h5/whitenovel-closemodal-ymz.png'></cover-image>
+    </cover-view>
+    <cover-view class='userInfo' wx:if="{{showUserCard}}">
+      <cover-view class='userInfo-headPic'>
+        <cover-image src="{{roomDetail.userInfo.headPortraitUrl}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center" class='headPicImage'></cover-image>
+        <cover-image class='lelalogo' src='../../images/cardImage-klogo-ymz.png' wx:if="{{roomDetail.userInfo.userType == 1}}"></cover-image>
+      </cover-view>
+      <cover-view class='nickName'>
+        <cover-view class="nickIn">{{roomDetail.userInfo.nickname}}</cover-view>
+        <cover-view class="level {{filter.levelNum(roomDetail.userInfo.level)}}">
+          <cover-image src="{{filter.levelUrl(roomDetail.userInfo.level)}}" class='levelImage'></cover-image>
+          <cover-view class='card-leve'>{{roomDetail.userInfo.level}}</cover-view>
+        </cover-view>
+        <cover-image src="{{roomDetail.userInfo.gender == 1?'https://img.hongrenshuo.com.cn/h5/dongtai-manpng-ymz.png':'https://img.hongrenshuo.com.cn/h5/dongtai-womenpng-ymz.png'}}" class='sexIcon'></cover-image>
+      </cover-view>
+      <!-- <cover-view class='renz'>认证：{{roomDetail.userInfo.vipInfo}}</cover-view> -->
+      <cover-view class='desc'>
+        {{roomDetail.userInfo.introduction}}
+      </cover-view>
+      <cover-view class="userInfo-guan {{isFollow?'userInfo-guan-gray':''}}" bindtap='goAdd'>
+        <!-- <cover-view class="userInfo-add"></cover-view> -->
+        <cover-view>{{isFollow?'已关注':'关注'}}</cover-view>
+      </cover-view>
+      <cover-view class='userFans'>
+        <cover-view class='userFans-left'>
+          <cover-view>{{boUser.statisticInfo.concernNumber}}</cover-view>
+          <cover-view class='title'>关注</cover-view>
+        </cover-view>
+        <cover-view class='userFans-middle'>
+          <cover-view>{{boUser.statisticInfo.followerNumber}}</cover-view>
+          <cover-view class='title'>粉丝</cover-view>
+        </cover-view>
+        <cover-view class='userFans-right'>
+          <cover-view>{{filter.getW(roomDetail.diamonds)}}</cover-view>
+          <cover-view class='title'>钻石</cover-view>
         </cover-view>
       </cover-view>
     </cover-view>
-  </cover-view>
-  <!-- -->
-  <cover-view class='modal-gift' wx:if="{{bigGift != ''}}">
-    <cover-view class='giftMess'>
+    <cover-view class="tips-goApp" wx:if="{{goDownCard}}">
+      <cover-view class='title'>温馨提示</cover-view>
+      <cover-view class='line'>下载克拉克拉APP，</cover-view>
+      <cover-view class="line">{{downTips}}</cover-view>
+      <cover-view class='goAppBtn' wx:if="{{platform == 'android'}}" catchtap='goshare'>
+        启动APP
+      </cover-view>
+      <button open-type="launchApp" app-parameter="{{roomscheme}}" binderror="launchAppError" class='goAppBtn' wx:else>
+        启动APP
+      </button>
     </cover-view>
-    <cover-image src='../../images/livebroad-gifttao-ymz.png' class='gifttao animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '1026'}}"></cover-image>
-    <cover-image src='../../images/livebroad-gifttian-ymz.png' class='gifttian animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '72'}}"></cover-image>
-    <cover-image src='../../images/livebroad-giftyue-ymz.png' class='giftyue animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '1065'}}"></cover-image>
-    <cover-image src='../../images/livebroad-giftgao-ymz.png' class='giftgao animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '15434'}}"></cover-image>
-    <cover-image src='../../images/livebroad-giftemeng-ymz.png' class='giftemeng animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '73'}}"></cover-image>
-    <cover-image src='../../images/livebroad-giftmeng-ymz.png' class='giftmeng animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '15467'}}"></cover-image>
   </cover-view>
-</view>
+</cover-view>
+<!-- 直播结束 -->
+<cover-view class='modal' wx:if="{{shouGoList}}">
+  <cover-view class='modal-content'>
+    <cover-view class='close' bindtap='goList'>
+      <cover-image src='https://img.hongrenshuo.com.cn/h5/whitenovel-closemodal-ymz.png'></cover-image>
+    </cover-view>
+    <cover-view class='userInfo' wx:if="{{showEndCard}}">
+      <cover-view class='end-title'>直播已结束</cover-view>
+      <cover-view class='end-time'>{{roomDetail.costTime}}</cover-view>
+      <cover-view class='userInfo-headPic'>
+        <cover-image src="{{roomDetail.userInfo.headPortraitUrl}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center" class='headPicImage'></cover-image>
+        <cover-image class='lelalogo' src='../../images/cardImage-klogo-ymz.png' wx:if="{{roomDetail.userInfo.userType == 1}}"></cover-image>
+      </cover-view>
+      <cover-view class='nickName'>
+        {{roomDetail.userInfo.nickname}}
+      </cover-view>
+      <cover-view class='userFans'>
+        <cover-view class='userFans-left'>
+          <cover-view>{{roomDetail.likeCount}}</cover-view>
+          <cover-view class='title'>点赞</cover-view>
+        </cover-view>
+        <cover-view class='userFans-middle'>
+          <cover-view>{{roomDetail.watchNumber}}</cover-view>
+          <cover-view class='title'>累计收听</cover-view>
+        </cover-view>
+      </cover-view>
+      <cover-view class='goApp goAppTop' wx:if="{{platform == 'android'}}" catchtap='goshare'>
+        启动APP
+      </cover-view>
+      <button open-type="launchApp" app-parameter="{{roomscheme}}" binderror="launchAppError" class='goApp goAppTop' wx:else>
+        启动APP
+      </button>
+    </cover-view>
+  </cover-view>
+</cover-view>
+<!-- 是一个人 -->
+<cover-view class='modal' wx:if="{{oneMan}}">
+  <cover-view class='modal-content'>
+    <cover-view class='close' bindtap='goList'>
+      <cover-image src='https://img.hongrenshuo.com.cn/h5/whitenovel-closemodal-ymz.png'></cover-image>
+    </cover-view>
+    <cover-view class="tips-goApp">
+      <cover-view class='title'>温馨提示</cover-view>
+      <cover-view class='line'>你当前正在直播呦</cover-view>
+      <cover-view class="line">请返回app直播间</cover-view>
+      <cover-view class='goAppBtn' bindtap='goList'>返回首页</cover-view>
+    </cover-view>
+  </cover-view>
+</cover-view>
+<!-- 礼物面板 -->
+<cover-view class='giftBgOut' wx:if="{{showBottom}}" catchtap='closeGift'>
+  <cover-view class="giftBg">
+    <cover-image src='https://img.hongrenshuo.com.cn/h5/livebroad-giftbg-ymz.png' class='coverBg-image'></cover-image>
+    <cover-view class='giftBg-con'>
+      <cover-view class='giftbg-title'>
+        <cover-view class='giftbg-title-li active-color-li'>
+          礼物
+        </cover-view>
+        <cover-view class='middle-line'></cover-view>
+        <cover-view class='giftbg-title-li middleLi' catchtap='getloadToast' data-indextype='3'>
+          专属
+        </cover-view>
+        <cover-view class='middle-line'></cover-view>
+        <cover-view class='giftbg-title-li' catchtap='getloadToast' data-indextype='3'>
+          会员
+        </cover-view>
+      </cover-view>
+      <cover-view class='gift-user'>
+        <cover-view class="gift-user-left">
+          <cover-view class='leftName'>赠送给：</cover-view>
+          <cover-image src='{{roomDetail.userInfo.headPortraitUrl}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center' class='headPic'></cover-image>
+          <cover-view class='nickName'>{{roomDetail.userInfo.nickname}}</cover-view>
+        </cover-view>
+        <cover-view class="ziliao" catchtap='getZiLiao'>
+          资料
+        </cover-view>
+      </cover-view>
+      <cover-view class='giftList' bindchange='swiperChange'>
+        <cover-view class='gift-item'>
+          <cover-view class="gift-out {{chooseGiftIndex==index ?'gift-Active':''}}" catchtap='chooseGift' wx:for="{{giftDataList}}" wx:key="index" data-index="{{index}}" wx:for-index="index" wx:if="{{item.id != 14002}}">
+            <cover-view>
+              <cover-image class="giftImage {{index == 0?'giftImageOne':''}}" src='{{item.pic}}'></cover-image>
+              <cover-view class="giftName {{index == 0?'giftNameOne':''}}">{{item.name}}</cover-view>
+              <cover-view class="giftNum">{{filter.thousands(item.price)}}红豆</cover-view>
+            </cover-view>
+          </cover-view>
+        </cover-view>
+      </cover-view>
+      <cover-view class='bottomBtn'>
+        <cover-view class='bottom-left'>
+          <cover-view class='chong' catchtap='goOrder'>充值</cover-view>
+          <cover-view class='hdNum'>{{gold}}红豆</cover-view>
+        </cover-view>
+        <cover-view class='bottom-right' catchtap='goSendGift'>发送</cover-view>
+      </cover-view>
+    </cover-view>
+  </cover-view>
+</cover-view>
+<!-- 大礼物 -->
+<cover-view class='modal-gift' wx:if="{{bigGift != ''}}">
+  <cover-view class='giftMess'>
+  </cover-view>
+  <cover-image src='../../images/livebroad-gifttao-ymz.png' class='gifttao animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '1026'}}"></cover-image>
+  <cover-image src='../../images/livebroad-gifttian-ymz.png' class='gifttian animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '72'}}"></cover-image>
+  <cover-image src='../../images/livebroad-giftyue-ymz.png' class='giftyue animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '1065'}}"></cover-image>
+  <cover-image src='../../images/livebroad-giftgao-ymz.png' class='giftgao animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '15434'}}"></cover-image>
+  <cover-image src='../../images/livebroad-giftemeng-ymz.png' class='giftemeng animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '73'}}"></cover-image>
+  <cover-image src='../../images/livebroad-giftmeng-ymz.png' class='giftmeng animated gift-active' bindanimationend='animationendBiggift' wx:if="{{bigGift.c.id == '15467'}}"></cover-image>
+</cover-view>
+<!-- 直播未开始 -->
+<cover-view class='modal' wx:if="{{roomNoOpen}}">
+  <cover-view class='modal-content'>
+    <cover-view class='close' bindtap='goList'>
+      <cover-image src='https://img.hongrenshuo.com.cn/h5/whitenovel-closemodal-ymz.png'></cover-image>
+    </cover-view>
+    <cover-view class='userInfo'>
+      <cover-view class='end-title'>直播未开始</cover-view>
+      <cover-view class='end-time'>开播时间：{{boTime}}</cover-view>
+      <cover-view class='userInfo-headPic'>
+        <cover-image src="{{roomDetail.userInfo.headPortraitUrl}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center" class='headPicImage'></cover-image>
+        <cover-image class='lelalogo' src='../../images/cardImage-klogo-ymz.png' wx:if="{{roomDetail.userInfo.userType == 1}}"></cover-image>
+      </cover-view>
+      <cover-view class='nickName'>
+        {{roomDetail.userInfo.nickname}}
+      </cover-view>
+      <cover-view class='goApp goAppTop' wx:if="{{platform == 'android'}}" catchtap='goshare'>
+        启动APP
+      </cover-view>
+      <button open-type="launchApp" app-parameter="{{roomscheme}}" binderror="launchAppError" class='goApp goAppTop' wx:else>
+        启动APP
+      </button>
+    </cover-view>
+  </cover-view>
+</cover-view>
+<!-- 付费直播间 -->
+<cover-view class='modal' wx:if="{{roomNoOpen}}">
+  <cover-view class='modal-content'>
+    <cover-view class='close' bindtap='goList'>
+      <cover-image src='https://img.hongrenshuo.com.cn/h5/whitenovel-closemodal-ymz.png'></cover-image>
+    </cover-view>
+    <cover-view class='userInfo'>
+      <cover-view class='end-title'>直播未开始</cover-view>
+      <cover-view class='end-time'>开播时间：{{boTime}}</cover-view>
+      <cover-view class='userInfo-headPic'>
+        <cover-image src="{{roomDetail.userInfo.headPortraitUrl}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center" class='headPicImage'></cover-image>
+        <cover-image class='lelalogo' src='../../images/cardImage-klogo-ymz.png' wx:if="{{roomDetail.userInfo.userType == 1}}"></cover-image>
+      </cover-view>
+      <cover-view class='nickName'>
+        {{roomDetail.userInfo.nickname}}
+      </cover-view>
+      <cover-view class='goApp goAppTop' wx:if="{{platform == 'android'}}" catchtap='goshare'>
+        启动APP
+      </cover-view>
+      <button open-type="launchApp" app-parameter="{{roomscheme}}" binderror="launchAppError" class='goApp goAppTop' wx:else>
+        启动APP
+      </button>
+    </cover-view>
+  </cover-view>
+</cover-view>
+<cover-view class='modal' wx:if="{{roomMoney}}">
+  <cover-view class='modal-content'>
+    <cover-view class='close' bindtap='goList'>
+      <cover-image src='https://img.hongrenshuo.com.cn/h5/whitenovel-closemodal-ymz.png'></cover-image>
+    </cover-view>
+    <cover-view class="tips-goApp">
+      <cover-view class='title'>温馨提示</cover-view>
+      <cover-view class='line'>暂不支持观看付费直播</cover-view>
+      <cover-view class="line">程序猿大大正在努力开发中</cover-view>
+      <cover-view class='line'>去看看其他直播间吧</cover-view>
+      <cover-view class='goAppBtn' bindtap='goList'>我知道了</cover-view>
+    </cover-view>
+  </cover-view>
+</cover-view>

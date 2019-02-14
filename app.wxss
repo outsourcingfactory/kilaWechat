@@ -1,132 +1,170 @@
 /**app.wxss**/
 
 page {
-    height: 100%;
+  height: 100%;
 }
-button{
+
+button {
   margin: 0;
   padding: 0;
   border-radius: 0;
-  border:none;
+  border: none;
   line-height: 1;
   background: transparent;
 }
-button::after{
-  border:none;
+
+button::after {
+  border: none;
 }
+
 .tag-item {
-    height: 36rpx;
-    line-height: 36rpx;
-    padding: 0 12rpx;
-    position: relative;
-    margin-right: 12rpx;
-    font-size: 12px;
-    font-weight: 300;
-    box-sizing: border-box;
-    /* padding-top: 1rpx; */
+  height: 36rpx;
+  line-height: 36rpx;
+  padding: 0 12rpx;
+  position: relative;
+  margin-right: 12rpx;
+  font-size: 12px;
+  font-weight: 300;
+  box-sizing: border-box;
+  /* padding-top: 1rpx; */
 }
+
 .tag-item:before {
-    content: '';
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    left: 0;
-    top: 0;
-    border-radius: 16rpx;
-    -webkit-transform-origin: 0 0;
-    -moz-transform-origin: 0 0;
-    -ms-transform-origin: 0 0;
-    -o-transform-origin: 0 0;
-    transform-origin: 0 0;
-    -webkit-transform: scale(0.5, 0.5);
-    -ms-transform: scale(0.5, 0.5);
-    -o-transform: scale(0.5, 0.5);
-    transform: scale(0.5, 0.5);
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  left: 0;
+  top: 0;
+  border-radius: 16rpx;
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scale(0.5, 0.5);
+  -ms-transform: scale(0.5, 0.5);
+  -o-transform: scale(0.5, 0.5);
+  transform: scale(0.5, 0.5);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
+
 .tag-item:last-child {
-    margin-right: 0rpx;
+  margin-right: 0rpx;
+}
+.tag-item{
+  border-radius: 6rpx;
+  box-sizing: border-box;
 }
 .tag-item-color0 {
-    color: #9EBBFB;
+  color: #9ebbfb;
+  border: 1rpx solid #9ebbfb;
 }
 
-.tag-item-color0:before {
+/* .tag-item-color0:before {
     border: 1px solid #9EBBFB;
-}
+} */
 
 .tag-item-color1 {
-    color: #50cdbc;
+  color: #50cdbc;
+  border: 1rpx solid #50cdbc;
 }
 
-.tag-item-color1:before {
+/* .tag-item-color1:before {
     border: 1px solid #50cdbc;
-}
+} */
+
 .tag-item-color2 {
-    color: #FE9BBC;
-}
-.tag-item-color2:before {
-    border: 1px solid #FE9BBC;
-}
-.tag-item-color3 {
-    color: #FFAE70;
-}
-.tag-item-color3:before {
-    border: 1px solid #FFAE70;
-}
-.tag-item-color4 {
-    color: #C8AEF0;
+  color: #fe9bbc;
+   border: 1rpx solid #fe9bbc;
 }
 
+/* .tag-item-color2:before {
+  border: 1px solid #fe9bbc;
+} */
+
+.tag-item-color3 {
+  color: #ffae70;
+  border: 1rpx solid #ffae70;
+}
+
+/* .tag-item-color3:before {
+    border: 1px solid #FFAE70;
+} */
+
+.tag-item-color4 {
+  color: #c8aef0;
+  border: 1rpx solid #c8aef0;
+}
+
+/* 
 .tag-item-color4:before {
     border: 1px solid #C8AEF0;
-}
+} */
+
 .tag-item-color5 {
-    color: #FF8181;
+  color: #ff8181;
+  border: 1rpx solid #ff8181;
 }
 
-.tag-item-color5:before {
+/* .tag-item-color5:before {
     border: 1px solid #FF8181;
-}
+} */
+
 .tag-item-color6 {
-    color: #D2B098;
+  color: #d2b098;
+  border: 1rpx solid #d2b098;
 }
 
+/* 
 .tag-item-color6:before {
     border: 1px solid #D2B098;
-}
+} */
+
 .tag-item-color7 {
-    color: #88BFFF;
+  color: #88bfff;
+  border: 1rpx solid #88bfff;
 }
 
-.tag-item-color7:before {
+/* .tag-item-color7:before {
     border: 1px solid #88BFFF;
-}
+} */
+
 .tag-item-color8 {
-    color: #D2B098;
+  color: #d2b098;
+  border: 1rpx solid #d2b098;
 }
 
-.tag-item-color8:before {
+/* .tag-item-color8:before {
     border: 1px solid #D2B098;
-}
+} */
+
 .tag-item-color9 {
-    color: #88BFFF;
+  color: #88bfff;
+  border: 1rpx solid #88bfff;
 }
-.tag-item-color9:before {
+
+/* .tag-item-color9:before {
     border: 1px solid #88BFFF;
+} */
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
 }
-::-webkit-scrollbar{
-    width: 0;
-    height: 0;
-    color: transparent;
-}
-cover-view{
+
+cover-view {
   overflow: auto;
-  /* line-height: 1; */
-  /* white-space: pre-wrap */
+  white-space: normal;
+  /* line-height: 1; *//* white-space: pre-wrap */
 }
+cover-image {
+  overflow: auto;
+}
+
 .modal {
   width: 100%;
   height: 100%;
@@ -139,7 +177,8 @@ cover-view{
   z-index: 1000;
   background: rgba(0, 0, 0, 0.6);
 }
-.iphx{
+
+.iphx {
   padding-bottom: 68rpx;
   box-sizing: border-box;
 }

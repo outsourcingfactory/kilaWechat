@@ -3,7 +3,7 @@
 .container {
   width: 100%;
   height: 100%;
-  
+  position: relative;
 }
 .conBG{
   width: 100%;
@@ -65,7 +65,7 @@ image {
 .headPic {
   width: 68rpx;
   height: 68rpx;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   position: relative;
 }
 .lelalogo {
@@ -429,7 +429,7 @@ image {
   font-size: 30rpx;
   color: #27292b;
   text-align: center;
-  margin-top: 34rpx;
+  margin-top: 30rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -575,6 +575,7 @@ image {
   display: flex;
   align-items: flex-end;
   background: rgba(0, 0, 0, 0.3);
+  z-index: 300;
 }
 .giftBg {
   width: 100%;
@@ -880,7 +881,7 @@ image {
     background-size: 100% 100%;
 }
 .tequan-nickName {
-  max-width: 240rpx;
+  max-width: 220rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1275,3 +1276,291 @@ image {
 }
 /* 大礼物弹窗结束 */
 
+/* 虚拟直播间信息流开始 */
+.messageListm {
+  overflow-y: scroll !important;
+}
+
+.messageLiOutm {
+  display: flex;
+  margin-top: 12rpx;
+  min-height: 60rpx;
+}
+
+/* .gonormal-level {
+  position: absolute;
+  left: 10rpx;
+  top: 12rpx;
+  width: 76rpx;
+  height: 34rpx;
+  background: url("https://img.hongrenshuo.com.cn/h5/livebroad-level1-ymz.png") no-repeat center;
+  background-size: 100% 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 8rpx;
+  box-sizing: border-box;
+  font-size: 20rpx;
+  color: #fe9bbc;
+}
+
+.gonormal-writeDesc {
+  text-indent: 80rpx;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: flex;
+}
+.gonormal-messageLi-nickName{
+  display: inline-block;
+} */
+.gonormal-messageLi-nickNamem{
+  line-height: 1.8;
+  display: inline-block;
+}
+.messageLim {
+  padding: 10rpx 20rpx 10rpx 10rpx;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 20rpx;
+  /* max-width: 652rpx; */
+  width: 652rpx;
+  color: #fff;
+  font-size: 28rpx;
+  align-items: center;
+  position: relative;
+}
+.messleft{
+  position:absolute;
+  left:10rpx;
+  top:16rpx;
+}
+.active-messageLim{
+   background: rgba(211, 103, 114, 0.33);
+}
+.klogiImagem{
+  width: 40rpx;
+  height: 34rpx;
+  position:absolute;
+  left:96rpx;
+  top:18rpx;
+}
+.writeDescm {
+  line-height: 1.6;
+  text-indent: 80rpx;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: normal;
+
+  
+}
+.writeDescLeftm{
+  text-indent: 130rpx;
+}
+.writeDescColorm {
+  color: #FF8383 !important;
+}
+.messageLim .levelm {
+  position: relative;
+  font-size: 20rpx;
+  float: left;
+}
+.levelImageIcon{
+  width: 76rpx;
+  height: 34rpx;
+}
+.levelNumWri{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  text-align: center;
+  line-height: 34rpx;
+  padding-left: 10rpx;
+  padding-top: 3rpx;
+  box-sizing: border-box;
+}
+.levelm1{
+  color: #fe9bbc !important;
+}
+.levelm2{
+  color: #fee075 !important;
+}
+.levelm3{
+  color: #ff8c8c !important;
+}
+.levelm4{
+  color: #56d6c4 !important;
+}
+.levelm5{
+  color: #9ebbfb !important;
+}
+.levelm6{
+  color: #c8aef0 !important;
+}
+.levelm7{
+  color: #ff9b70 !important;
+}
+.levelm8{
+  color: #fca885 !important;
+}
+.levelm9{
+  color: #8ae2c8 !important;
+}
+.levelm10{
+  color: #71b8d0 !important;
+}
+.levelm11{
+  color: #9384ff !important;
+}
+.levelm12{
+  color: #e985eb !important;
+}
+.levelm13{
+  color: #fe958d !important;
+}
+.messageLi-nickNamem {
+  font-size: 28rpx;
+  /* margin: 0 6rpx; */
+  margin-left: 6rpx;
+  line-height: 1.5;
+  /* display: inline !important; */
+  display: inline;
+  position: relative;
+}
+.fff{
+  position: absolute;
+  left:16rpx;
+  top:17rpx;
+  z-index: 1; 
+  color: #c7c7c7;
+  display: inline;
+}
+
+/* 虚拟直播间外面样式 */
+.xinuPlayer{
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.zindex1{
+  z-index: 100;
+}
+.content1{
+  background: none;
+  /* position: absolute;
+  left: 0rpx;
+  top: 0rpx; */
+  /* z-index: 1000; */
+}
+.gonormal-normalLim {
+  padding: 10rpx 20rpx 10rpx 10rpx;
+  box-sizing: border-box;
+  border-radius: 20rpx;
+  width: 652rpx;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 28rpx;
+  align-items: center;
+  position: relative;
+  color: #e77c86;
+}
+.lelalogom{
+  width: 28rpx;
+  height: 28rpx;
+  position: absolute;
+  right: 0rpx;
+  bottom: 0rpx;
+}
+.userDescOut{
+  position: relative;
+}
+.userDescOut .level{
+  position: absolute;
+  width: 64rpx;
+  height: 68rpx;
+  left:20rpx;
+  top:50%;
+  margin-top:-34rpx;
+}
+.userDescm{
+  margin-top: 0;
+}
+.userDescm1{
+  padding-bottom: 24rpx;
+}
+.levelWriteNum{
+  position: absolute;
+  left: 0rpx;
+  top: 0rpx;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 68rpx;
+}
+.levelIconOut{
+  position: absolute;
+  width: 64rpx;
+  height: 68rpx;
+  left:20rpx;
+  top:50%;
+  margin-top:-34rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #281e1e;
+  font-size: 24rpx;
+}
+.levelIn{
+  width: 100%;
+  height: 100%;
+}
+.messageLim-top{
+  padding: 10rpx 20rpx 10rpx 10rpx;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 28rpx;
+  align-items: center;
+  position: relative;
+}
+.goInRoomm{
+  margin-top: 20rpx;
+}
+
+/* 直播结束 付费直播间 预告直播间 弹窗样式 */
+.goAppTop{
+  margin: 30rpx auto 0;
+}
+
+/* 特权用户进入直播间 */
+.goInRoomTequan{
+  height: auto;
+  position: absolute;
+  top: 250rpx;
+  left: -20rpx;
+}
+.goTequanm{
+  position: relative;
+  width:568rpx;
+  height:112rpx;
+  margin-left:30rpx;
+  font-size:30rpx;
+  line-height:136rpx;
+  color:#3F3131;
+}
+.goTequanBgImage{
+  width: 100%;
+  height: 100%;
+}
+.tequanOut{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top:0;
+  display: flex;
+  align-items: center;
+  padding-left: 100rpx;
+  padding-top: 20rpx;
+  box-sizing: border-box;
+}

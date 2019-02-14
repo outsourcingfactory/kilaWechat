@@ -6,7 +6,8 @@ const io = require('../../utils/weapp.socket.io.js');
 import getToken from '../../utils/util'
 import {
   LiveRoomFactory,
-  time_To_hhmmss
+  time_To_hhmmss,
+  formatDate
 } from '../../utils/util';
 let app = getApp();
 let isIphoneX = app.globalData.isIphoneX;
@@ -73,7 +74,20 @@ Page({
     watchNum:'',  //观看人数
     oneMan:false,  //是一个人
     inputFocus:false,
-    bigGift:''
+    bigGift:'',
+    funcType:7, //直播间类型 7是虚拟直播间
+    roomscheme:'',  //直播间schmeme
+    roomNoOpen:false,
+    boTime:'',
+    roomMoney:false,  //付费直播间
+  },
+  launchAppError(e) {
+    console.log(e.detail.errMsg);
+    if (e.detail.errMsg == 'invalid scene'){
+      wx.navigateTo({
+        url: '../goshare/goshare'
+      })
+    }
   },
   // 跳转首页
   goList: function() {
@@ -112,7 +126,7 @@ Page({
     var that = this;
     if (this.data.isIphoneX) {
       that.setData({
-        bottom: 48,
+        bottom: 34,
         // gofoucus: false,
         inputFocus:false,
         searchinput: e.detail.value || '说点什么..'
@@ -377,19 +391,21 @@ Page({
       })
     }else{
       this.setData({
-        roomid: options.roomid || '1235661975363518640',
+        roomid: options.roomid || '1236318980805754954',
         showshare: options.showshare || '',
-        // roomid:'1228241199588966526'
+        // roomid:'1236318980805754954'
       })
     }
     this.setData({
-      isIphoneX: isIphoneX
+      isIphoneX: isIphoneX,
+      roomscheme: 'uxinlive://live?roomid=' + this.data.roomid + '&roomId=' + this.data.roomid
     })
     if (this.data.isIphoneX) {
       this.setData({
         bottom: 34
       })
     }
+
     let selfImToken = wx.getStorageSync('selfImToken');
     let token = wx.getStorageSync('token');
     let uid = wx.getStorageSync('uid');
@@ -639,10 +655,6 @@ Page({
           // console.log(content)
           var dataArray = this.data.dataList;
           dataArray.push(content)
-          // 如果数组超过600 删除掉一半的数据
-          if (this.data.dataList.length.length > 800) {
-            dataArray.splice(0, 400)
-          }
           this.setData({
             dataList: dataArray
           })
@@ -745,16 +757,31 @@ Page({
             getGoRoomPeople: dataArray
           })
         }
-        // if (content.t && content.t == 220 || content.t == 230 || content.t == 200 || content.t == 211){
-        //   wx.createSelectorQuery().select('#messageList').boundingClientRect(function (rect) {
-        //     console.log(rect.height * 2 + 10000)
-        //     // 使页面滚动到底部
-        //     wx.pageScrollTo({
-        //       scrollTop: rect.height*2+10000,
-        //       duration: 500
-        //     })
-        //   }).exec()
-        // }
+        if (content.t && content.t == 220 || content.t == 230 || content.t == 200 || content.t == 211){
+          // wx.createSelectorQuery().select('#messageList').boundingClientRect(function (rect) {
+          //   console.log(rect.height * 2 + 10000)
+          //   // 使页面滚动到底部
+          //   wx.pageScrollTo({
+          //     scrollTop: rect.height*2+10000,
+          //     duration: 500
+          //   })
+          // }).exec()
+
+          // 删除掉一半的数据
+          var dataSplice = this.data.dataList;
+          if (this.data.funcType == 7) {
+            if (dataSplice.length > 10) {
+              dataSplice.splice(0, 6)
+            }
+          } else {
+            if (dataSplice.length > 400) {
+              dataSplice.splice(0, 200)
+            }
+          }
+          this.setData({
+            dataList: dataSplice
+          })
+        }
       }
     }
   },
@@ -1028,9 +1055,25 @@ Page({
             oneMan: true,
           })
         }
+        // 付费直播间
+        if (this.data.roomDetail.price > 0) {
+          this.setData({
+            roomMoney: true
+          })
+          return
+        }
         this.setData({
           roomDetail: res.data.data,
+          funcType: res.data.data.funcType   //虚拟直播间标识
         })
+        // 预告直播间
+        if (this.data.roomDetail.status == 1){
+          this.setData({
+            roomNoOpen: true,
+            boTime: formatDate(this.data.roomDetail.liveStartTime)
+          })
+          return
+        }
         this.getGiftList();
         // 判断是否关注
         this.isFollowFun();
@@ -1052,9 +1095,15 @@ Page({
         var query = wx.createSelectorQuery();
         //选择id
         query.select('#mjltest').boundingClientRect(function(rect) {
-          that.setData({
-            viewheight: (rect.height - 40) + 'px'
-          })
+          if (that.data.funcType == 7){
+            that.setData({
+              viewheight: '220px'
+            })
+          }else{
+            that.setData({
+              viewheight: (rect.height - 40) + 'px'
+            })
+          }
         }).exec();
         // 获取主播个人信息
       } else {

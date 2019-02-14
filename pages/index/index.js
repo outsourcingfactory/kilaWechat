@@ -72,12 +72,12 @@ Page({
     var functype = e.currentTarget.dataset.functype;
     var uid = e.currentTarget.dataset.id;
     var price = e.currentTarget.dataset.price;
-    if (functype == 7){
-      this.setData({
-        showModalXuni: true,
-      })
-      return
-    }
+    // if (functype == 7){
+    //   this.setData({
+    //     showModalXuni: true,
+    //   })
+    //   return
+    // }
     if (price > 0) {
       this.setData({
         showModalFufei: true,
