@@ -30,26 +30,42 @@ Page({
     })
   },
   onLoad: function(options) {
+    console.log(options);
     if (options.token) {
       token = options.token;
     } else {
       token = wx.getStorageSync('token');
     }
     if (!token) {
-      getToken.getToken('index');
+      // 传参到验证页面
+      var jsonObj = JSON.stringify(options);
+      getToken.getToken('index', jsonObj);
+      return
     } else {
       wx.showToast({
         title: '加载中',
         icon: 'loading',
         duration: 10000
       });
+      if (options.type == 'room') {
+        wx.navigateTo({
+          url: '../roomdetail/roomdetail?roomid=' + options.roomid
+        })
+      } else if (options.jsonObj) {
+        // 从验证页面跳过来带参数
+        var jsonObj = JSON.parse(options.jsonObj);
+        if (jsonObj.type == 'room') {
+          // 判断跳转是不是回放直播间
+          this.getRoomDetail(jsonObj.roomid)
+        }
+      }
       this.getDataList();
+      let uid = wx.getStorageSync('uid');
+      this.setData({
+        uid: uid,
+        isIphoneX: isIphoneX
+      });
     }
-    let uid = wx.getStorageSync('uid');
-    this.setData({
-      uid: uid,
-      isIphoneX: isIphoneX
-    });
   },
   goshare:function(){
     wx.navigateTo({
@@ -57,7 +73,7 @@ Page({
     })
   },
   onShow: function() {
-
+    this.getDataList();
   },
   onPullDownRefresh: function() {
     this.setData({
@@ -90,6 +106,8 @@ Page({
       })
       return
     }
+    
+
     wx.navigateTo({
       url: '../roomdetail/roomdetail?roomid=' + e.currentTarget.dataset.roomid
     })
@@ -169,8 +187,6 @@ Page({
                 jiArray: true
               })
             }
-            console.log(this.data.showBottomLogo)
-            console.log(this.data.jiArray)
           }
           console.log(this.data.roomList);
         } else {
@@ -184,6 +200,41 @@ Page({
       .finally(function(res) {
         wx.hideToast();
       })
+  },
+  /**
+   * 获取直播间信息
+   */
+  getRoomDetail: function (roomid) {
+    let that = this;
+    var url = config.getUrl.getRoomInfo;
+    var params = {
+      roomId: roomid
+    }
+    var header = {
+      'token': token
+    }
+    return wxRequest.getRequest(url, params, header).then(res => {
+      console.log(res.data)
+      if (res.data.code == 200) {
+        console.log(res.data);
+        // 回放直播间  直播间状态 1 直播前 4 直播中 10 直播正常结束  19 已删除 不在客户端显示
+        if (res.data.data.status == 10) {
+          wx.navigateTo({
+            url: '../roomago/roomago?roomid=' + roomid
+          })
+        }else{
+          wx.navigateTo({
+            url: '../roomdetail/roomdetail?roomid=' + roomid
+          })
+        }
+      } else {
+        wx.showToast({
+          title: res.data.msg,
+          icon: 'none',
+          duration: 1500,
+        })
+      }
+    })
   },
   // 到达底部加载
   onReachBottom: function() {

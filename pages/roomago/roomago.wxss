@@ -236,7 +236,7 @@ image {
 /* 视频开始 */
 
 .live-play-bg {
-  margin: 36rpx auto 0;
+  margin: 36rpx auto;
   width: 702rpx;
   height: 432rpx;
   background: url("https://img.hongrenshuo.com.cn/h5/livebroad-videoBg-ymz.png?v=1") no-repeat center;
@@ -1022,11 +1022,15 @@ image {
 }
 .messOutHidd{
   overflow-y: scroll !important;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
 }
 .messageList {
-  /* max-height: 740rpx; */
-  /* height: 500rpx; */
   overflow-y: scroll !important;
+  width: 100%;
+  height: 100%;
 }
 
 .messageLiOut {
@@ -1451,10 +1455,10 @@ image {
 }
 .content1{
   background: none;
-  /* position: absolute;
+  position: absolute;
   left: 0rpx;
-  top: 0rpx; */
-  /* z-index: 1000; */
+  top: 0rpx;
+  z-index: 1000;
 }
 .gonormal-normalLim {
   padding: 10rpx 20rpx 10rpx 10rpx;

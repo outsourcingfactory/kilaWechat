@@ -1,0 +1,200 @@
+var filter = {
+  initClass: function (value) {
+    var classname = 'tag-item-color' + value.toString().charAt(value.length - 1);
+    return classname;
+  },
+  thousands: function (num) {
+    return num.toLocaleString();
+  },
+  levelNum: function (num) {
+    if (num < 20) {
+      return 'level1'
+    } else if (num > 19 && num < 40) {
+      return 'level2'
+    } else if (num > 39 && num < 60) {
+      return 'level3'
+    } else if (num > 59 && num < 70) {
+      return 'level4'
+    } else if (num > 69 && num < 80) {
+      return 'level5'
+    } else if (num > 79 && num < 90) {
+      return 'level6'
+    } else if (num > 89 && num < 100) {
+      return 'level7'
+    } else if (num > 99 && num < 120) {
+      return 'level8'
+    } else if (num > 119 && num < 140) {
+      return 'level9'
+    } else if (num > 139 && num < 160) {
+      return 'level10'
+    } else if (num > 159 && num < 180) {
+      return 'level11'
+    } else if (num > 179 && num < 200) {
+      return 'level12'
+    } else {
+      return 'level13'
+    }
+  },
+  levelNumm: function (num) {
+    if (num < 20) {
+      return 'levelm1'
+    } else if (num > 19 && num < 40) {
+      return 'levelm2'
+    } else if (num > 39 && num < 60) {
+      return 'levelm3'
+    } else if (num > 59 && num < 70) {
+      return 'levelm4'
+    } else if (num > 69 && num < 80) {
+      return 'levelm5'
+    } else if (num > 79 && num < 90) {
+      return 'levelm6'
+    } else if (num > 89 && num < 100) {
+      return 'levelm7'
+    } else if (num > 99 && num < 120) {
+      return 'levelm8'
+    } else if (num > 119 && num < 140) {
+      return 'levelm9'
+    } else if (num > 139 && num < 160) {
+      return 'levelm10'
+    } else if (num > 159 && num < 180) {
+      return 'levelm11'
+    } else if (num > 179 && num < 200) {
+      return 'levelm12'
+    } else {
+      return 'levelm13'
+    }
+  },
+  goTequanWx: function (num) {
+    if (num > 19 && num < 40) {
+      return 'goTequan1'
+    } else if (num > 39 && num < 60) {
+      return 'goTequan2'
+    } else if (num > 59 && num < 70) {
+      return 'goTequan3'
+    } else if (num > 69 && num < 80) {
+      return 'goTequan4'
+    } else if (num > 79 && num < 90) {
+      return 'goTequan5'
+    } else if (num > 89 && num < 100) {
+      return 'goTequan6'
+    } else if (num > 99 && num < 120) {
+      return 'goTequan7'
+    } else if (num > 119 && num < 140) {
+      return 'goTequan8'
+    } else if (num > 139 && num < 160) {
+      return 'goTequan9'
+    } else if (num > 159 && num < 180) {
+      return 'goTequan10'
+    } else if (num > 179 && num < 200) {
+      return 'goTequan11'
+    } else {
+      return 'goTequan12'
+    }
+  },
+  goTequanWxImage: function (num) {
+    if (num > 19 && num < 40) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel1-ymz.png?v=1'
+    } else if (num > 39 && num < 60) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel2-ymz.png'
+    } else if (num > 59 && num < 70) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel3-ymz.png'
+    } else if (num > 69 && num < 80) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel4-ymz.png'
+    } else if (num > 79 && num < 90) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel5-ymz.png'
+    } else if (num > 89 && num < 100) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel6-ymz.png'
+    } else if (num > 99 && num < 120) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel7-ymz.png'
+    } else if (num > 119 && num < 140) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel8-ymz.png'
+    } else if (num > 139 && num < 160) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel9-ymz.png'
+    } else if (num > 159 && num < 180) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel10-ymz.png'
+    } else if (num > 179 && num < 200) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel11-ymz.png'
+    } else {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-goinlevel12-ymz.png'
+    }
+  },
+  levelUrl: function (num) {
+    console.log(num)
+    if (num < 20) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level1-ymz.png'
+    } else if (num > 19 && num < 40) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level2-ymz.png'
+    } else if (num > 39 && num < 60) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level3-ymz.png'
+    } else if (num > 59 && num < 70) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level4-ymz.png'
+    } else if (num > 69 && num < 80) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level5-ymz.png'
+    } else if (num > 79 && num < 90) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level6-ymz.png'
+    } else if (num > 89 && num < 100) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level7-ymz.png'
+    } else if (num > 99 && num < 120) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level8-ymz.png'
+    } else if (num > 119 && num < 140) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level9-ymz.png'
+    } else if (num > 139 && num < 160) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level10-ymz.png'
+    } else if (num > 159 && num < 180) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level11-ymz.png'
+    } else if (num > 179 && num < 200) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level12-ymz.png'
+    } else {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level13-ymz.png'
+    }
+  },
+  levelImage: function (num) {
+    if (num < 20) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level1-ymz.png'
+    } else if (num > 19 && num < 40) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level2-ymz.png'
+    } else if (num > 39 && num < 60) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level3-ymz.png'
+    } else if (num > 59 && num < 70) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level4-ymz.png'
+    } else if (num > 69 && num < 80) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level5-ymz.png'
+    } else if (num > 79 && num < 90) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level6-ymz.png'
+    } else if (num > 89 && num < 100) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level7-ymz.png'
+    } else if (num > 99 && num < 120) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level8-ymz.png'
+    } else if (num > 119 && num < 140) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level9-ymz.png'
+    } else if (num > 139 && num < 160) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level10-ymz.png'
+    } else if (num > 159 && num < 180) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level11-ymz.png'
+    } else if (num > 179 && num < 200) {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level12-ymz.png'
+    } else {
+      return 'https://img.hongrenshuo.com.cn/h5/livebroad-level13-ymz.png'
+    }
+  },
+  // 返回一个w
+  getW: function (num) {
+    if (num > 10000) {
+      num = num / 10000
+      return num.toFixed(1) + '万'
+    } else {
+      return num
+    }
+  }
+}
+module.exports = {
+  initClass: filter.initClass,
+  thousands: filter.thousands,
+  levelNum: filter.levelNum,
+  levelUrl: filter.levelUrl,
+  getW: filter.getW,
+  goTequanWx: filter.goTequanWx,
+  levelNumm: filter.levelNumm,
+  levelImage: filter.levelImage,
+  goTequanWxImage: filter.goTequanWxImage
+}

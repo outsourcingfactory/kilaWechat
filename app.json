@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/roomago/roomago",
     "pages/roomdetail/roomdetail",
     "pages/goshare/goshare",
     "pages/order/order",
