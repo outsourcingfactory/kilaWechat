@@ -1,9 +1,9 @@
 {
   "pages":[
-    "pages/index/index",
-    "pages/roomago/roomago",
     "pages/roomdetail/roomdetail",
+    "pages/index/index",
     "pages/goshare/goshare",
+    "pages/roomago/roomago",
     "pages/order/order",
     "pages/logs/logs",
     "pages/auth/auth"

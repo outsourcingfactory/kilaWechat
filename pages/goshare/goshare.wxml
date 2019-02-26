@@ -1,6 +1,6 @@
 <!--pages/goshare/goshare.wxml-->
 <view class='container'>
-  <image src='https://img.hongrenshuo.com.cn/h5/livebroad-yindao-ymz.png?v=1' class='bgIMage' mode="widthFix"></image>
+  <image src='https://img.hongrenshuo.com.cn/h5/livebroad-yindao1-ymz.png' class='bgIMage' mode="widthFix"></image>
   <view class='bottom' bindtap='copyTBL'>
     <view class='title'>
       下载方法

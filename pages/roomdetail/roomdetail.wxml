@@ -2,7 +2,8 @@
 <wxs module="filter" src="./roomdetail.wxs"></wxs>
 <view style='width:100%;height:100%'>
   <!-- 正常直播间 -->
-  <view class="container" style="background-image: url({{roomDetail.defaultBackgroundPicUrl}});background-size: 100% auto;" wx:if="{{funcType!=7 && !roomMoney && !roomNoOpen}}">
+  <view class="container" wx:if="{{funcType!=7 && !roomMoney && !roomNoOpen}}">
+    <image class='bgImagePic' src='{{roomDetail.defaultBackgroundPicUrl}}' mode="aspectFill"></image>
     <view class="content {{isIphoneX?'iphx':''}}">
       <!-- 顶部 -->
       <view class='top'>
@@ -23,8 +24,9 @@
             <image src='../../images/livebroad-add-ymz.png'></image>
           </view>
         </view>
-        <view class='topRight'>
-          <image src='../../images/liveborad-kilashui-ymz.png'></image>
+        <view class='topRight' bindtap='goList'>
+          <image src='../../images/liveborad-kilashui-ymz.png' class='kelalogoImage'></image>
+          <image src='../../images/close.png' class='closeRoom'></image>
         </view>
       </view>
       <!-- 上面钻石等个人信息 -->
@@ -134,8 +136,8 @@
     </view>
   </view>
   <!-- 虚拟直播间 -->
-  <view class="container" style="background-image: url({{roomDetail.defaultBackgroundPicUrl}});background-size: 100% auto;" wx:if="{{funcType==7 && !roomMoney && !roomNoOpen}}">
-    <live-player src="{{roomDetail.rtmpPlayUrl}}" mode="RTC" autoplay bindstatechange="statechange" binderror="error" style="width:{{windowWidth}}px; height:{{windowHeight}}px" class="xinuPlayer" object-fit="fillCrop">
+  <view class="container container1" wx:if="{{funcType==7 && !roomMoney && !roomNoOpen}}">
+    <live-player src="{{roomDetail.rtmpPlayUrl}}" mode="RTC" autoplay bindstatechange="statechange" binderror="error" style="width:{{windowWidth}}px; height:{{windowHeight}}px" class="xinuPlayer" object-fit="fillCrop" class="live-play">
       <cover-view class="content content1 {{isIphoneX?'iphx':''}}">
         <!-- 顶部 -->
         <cover-view class='top zindex1'>
@@ -156,8 +158,9 @@
               <cover-image src='../../images/livebroad-add-ymz.png'></cover-image>
             </cover-view>
           </cover-view>
-          <cover-view class='topRight'>
-            <cover-image src='../../images/liveborad-kilashui-ymz.png'></cover-image>
+          <cover-view class='topRight' bindtap='goList'>
+            <cover-image src='../../images/liveborad-kilashui-ymz.png' class='kelalogoImage'></cover-image>
+            <cover-image src='../../images/close.png' class='closeRoom'></cover-image>
           </cover-view>
         </cover-view>
         <!-- 上面钻石等个人信息 -->

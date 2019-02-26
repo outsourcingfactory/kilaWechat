@@ -1,7 +1,8 @@
 <!--pages/roomdetail/roomdetail.wxml-->
 <wxs module="filter" src="./roomago.wxs"></wxs>
 <!-- 回放直播间 -->
-<view class="container" style="background-image: url({{roomDetail.defaultBackgroundPicUrl}});background-size: 100% auto;" wx:if="{{!roomMoney}}">
+<view class="container" wx:if="{{!roomMoney}}">
+  <image class='bgImagePic' src='{{roomDetail.defaultBackgroundPicUrl}}' mode="aspectFill"></image>
   <view class="content content1 {{isIphoneX?'iphx':''}}" >
     <!-- 顶部 -->
     <view class='top'>
@@ -20,9 +21,10 @@
           <image src='../../images/livebroad-add-ymz.png'></image>
         </view>
       </view>
-      <view class='topRight'>
-        <image src='../../images/liveborad-kilashui-ymz.png'></image>
-      </view>
+      <view class='topRight' bindtap='goList'>
+          <image src='../../images/liveborad-kilashui-ymz.png' class='kelalogoImage'></image>
+          <image src='../../images/close.png' class='closeRoom'></image>
+        </view>
     </view>
     <!-- 上面钻石等个人信息 -->
     <view class="userDesc">
@@ -88,38 +90,21 @@
       </view>
     </view>
   </view>
-  <video wx:if="{{funcType == 7}}" src="{{roomDetail.videoUrl}}" autoplay style="width: 100%; height: 100%;" object-fit="fill" bindplay="bindplay" bindtimeupdate="bindtimeupdate" bindended="bindended"></video>
+  <video wx:if="{{funcType == 7}}" src="{{roomDetail.videoUrl}}" autoplay style="width: 100%; height: 100%;" object-fit="cover" bindplay="bindplay" bindtimeupdate="bindtimeupdate" bindended="bindended"></video>
 </view>
 <!-- 底部 -->
-<cover-view class="bottom {{inputFocus?'bottomTop':''}}" wx:if="{{!showBottom  && !roomMoney}}" style="bottom:{{bottom}}px">
-  <cover-view class='cover-input' bindtap='tapInput'>
-    <cover-view class="{{inputFocus?'sayMore sayMoreTop':'sayMore'}}">{{searchinput}}</cover-view>
-    <input class="{{inputFocus?'sayMore sayMoreTop':'sayMore'}} inputOrder" placeholder-style="color:#{{inputFocus?'989A9B':'FFFFFF'}};" adjust-position="{{false}}" confirm-typ="send" bindconfirm="bindconfirmFun" bindfocus="foucus" bindblur="blur" value="{{searchinput}}"
-      focus='{{inputFocus}}' bindinput="getinputValue"></input>
+<cover-view class="bottom" wx:if="{{!showBottom  && !roomMoney}}" style="bottom:{{bottom}}px">    
+  <button open-type="share">
+    <cover-view class='iconout'>
+      <cover-image class='share' src='../../images/cardImage-share-ymz.png'></cover-image>
+    </cover-view>
+  </button>
+  <cover-view class='goApp' wx:if="{{platform == 'android'}}" catchtap='goshare'>
+    启动APP
   </cover-view>
-  <cover-view class='right' wx:if="{{!inputFocus}}">
-    <cover-view class='iconout' catchtap='getloadToast' data-indextype='1'>
-      <cover-image class='phone' src='../../images/cardImage-phone-ymz.png'></cover-image>
-    </cover-view>
-    <cover-view class='iconout' catchtap='getloadToast' data-indextype='2'>
-      <cover-image class='ask' src='../../images/cardImage-ask-ymz.png'></cover-image>
-    </cover-view>
-    <button open-type="share">
-      <cover-view class='iconout'>
-        <cover-image class='share' src='../../images/cardImage-share-ymz.png'></cover-image>
-      </cover-view>
-    </button>
-    <!-- wx:if="{{platform == 'android'}}" -->
-    <cover-view class='iconout coloryuan' bindtap='goBottomShow' wx:if="{{platform == 'android'}}">
-      <cover-image class='gift' src='../../images/cardImage-gift-ymz.png'></cover-image>
-    </cover-view>
-    <cover-view class='goApp' wx:if="{{platform == 'android'}}" catchtap='goshare'>
-      启动APP
-    </cover-view>
-    <button open-type="launchApp" app-parameter="{{roomscheme}}" binderror="launchAppError" class='goApp' wx:else>
-      启动APP
-    </button>
-  </cover-view>
+  <button open-type="launchApp" app-parameter="{{roomscheme}}" binderror="launchAppError" class='goApp' wx:else>
+    启动APP
+  </button>
 </cover-view>
 <!-- 个人主页 以及点击问号等弹窗 -->
 <cover-view class='modal' wx:if="{{showModal}}">
@@ -208,69 +193,6 @@
       <button open-type="launchApp" app-parameter="{{roomscheme}}" binderror="launchAppError" class='goApp goAppTop' wx:else>
         启动APP
       </button>
-    </cover-view>
-  </cover-view>
-</cover-view>
-<!-- 是一个人 -->
-<cover-view class='modal' wx:if="{{oneMan}}">
-  <cover-view class='modal-content'>
-    <cover-view class='close' bindtap='goList'>
-      <cover-image src='https://img.hongrenshuo.com.cn/h5/whitenovel-closemodal-ymz.png'></cover-image>
-    </cover-view>
-    <cover-view class="tips-goApp">
-      <cover-view class='title'>温馨提示</cover-view>
-      <cover-view class='line'>你当前正在直播呦</cover-view>
-      <cover-view class="line">请返回app直播间</cover-view>
-      <cover-view class='goAppBtn' bindtap='goList'>返回首页</cover-view>
-    </cover-view>
-  </cover-view>
-</cover-view>
-<!-- 礼物面板 -->
-<cover-view class='giftBgOut' wx:if="{{showBottom}}" catchtap='closeGift'>
-  <cover-view class="giftBg">
-    <cover-image src='https://img.hongrenshuo.com.cn/h5/livebroad-giftbg-ymz.png' class='coverBg-image'></cover-image>
-    <cover-view class='giftBg-con'>
-      <cover-view class='giftbg-title'>
-        <cover-view class='giftbg-title-li active-color-li'>
-          礼物
-        </cover-view>
-        <cover-view class='middle-line'></cover-view>
-        <cover-view class='giftbg-title-li middleLi' catchtap='getloadToast' data-indextype='3'>
-          专属
-        </cover-view>
-        <cover-view class='middle-line'></cover-view>
-        <cover-view class='giftbg-title-li' catchtap='getloadToast' data-indextype='3'>
-          会员
-        </cover-view>
-      </cover-view>
-      <cover-view class='gift-user'>
-        <cover-view class="gift-user-left">
-          <cover-view class='leftName'>赠送给：</cover-view>
-          <cover-image src='{{roomDetail.userInfo.headPortraitUrl}}&x-oss-process=image/resize,m_mfit,h_100,w_100,limit_0/crop,w_100,h_100,g_center' class='headPic'></cover-image>
-          <cover-view class='nickName'>{{roomDetail.userInfo.nickname}}</cover-view>
-        </cover-view>
-        <cover-view class="ziliao" catchtap='getZiLiao'>
-          资料
-        </cover-view>
-      </cover-view>
-      <cover-view class='giftList' bindchange='swiperChange'>
-        <cover-view class='gift-item'>
-          <cover-view class="gift-out {{chooseGiftIndex==index ?'gift-Active':''}}" catchtap='chooseGift' wx:for="{{giftDataList}}" wx:key="index" data-index="{{index}}" wx:for-index="index" wx:if="{{item.id != 14002}}">
-            <cover-view>
-              <cover-image class="giftImage {{index == 0?'giftImageOne':''}}" src='{{item.pic}}'></cover-image>
-              <cover-view class="giftName {{index == 0?'giftNameOne':''}}">{{item.name}}</cover-view>
-              <cover-view class="giftNum">{{filter.thousands(item.price)}}红豆</cover-view>
-            </cover-view>
-          </cover-view>
-        </cover-view>
-      </cover-view>
-      <cover-view class='bottomBtn'>
-        <cover-view class='bottom-left'>
-          <cover-view class='chong' catchtap='goOrder'>充值</cover-view>
-          <cover-view class='hdNum'>{{gold}}红豆</cover-view>
-        </cover-view>
-        <cover-view class='bottom-right' catchtap='goSendGift'>发送</cover-view>
-      </cover-view>
     </cover-view>
   </cover-view>
 </cover-view>

@@ -2,15 +2,16 @@
 <wxs module="initClass" src="./index.wxs"></wxs> 
 <view class="container {{isIphoneX?'iphx':''}}" > 
     <view class="content"> 
-        <view class="type-title"> 
+        <view class="type-title">
             <image src="../../images/index-hoticon.png" class="title-image"></image> 
             热门推荐 
         </view> 
         <view class="list-content"> 
-            <view class="list-item" wx:for="{{roomList}}" wx:key="index" data-index="{{index}}" wx:if="{{item.dataType == 8}}" bindtap='goDetail' data-functype='{{item.roomResq.funcType}}' data-roomid='{{item.roomResq.roomIdStr}}' data-uid='{{item.userResp.id}}' data-price='{{item.roomResq.price}}'> 
+            <view class="list-item" wx:for="{{roomList}}" wx:key="index" data-index="{{index}}" wx:if="{{item.dataType == 8}}" bindtap='goDetail' data-roomid='{{item.roomResq.roomIdStr}}' data-uid='{{item.userResp.id}}' data-price='{{item.roomResq.price}}'> 
                 <view class="cover-image-content"> 
                     <view class='fufei' wx:if="{{item.roomResq.price > 0}}"> 
-                      ￥{{item.roomResq.price}} 
+                      <image class='douzi' src='https://img.hongrenshuo.com.cn/h5/zhibo-douzi-ymz.png'></image>
+                      {{item.roomResq.price}}
                     </view> 
                     <image src="{{item.roomResq.backPic}}?x-oss-process=image/resize,m_mfit,h_188,w_340,limit_0/crop,w_340,h_188,g_center" mode="aspectFill" class='backpIC' wx:if="{{item.roomResq.backPic}}"></image> 
                     <image src="{{item.userResp.headPortraitUrl}}&x-oss-process=image/resize,m_mfit,h_188,w_340,limit_0/crop,w_340,h_188,g_center" mode="aspectFill" class='backpIC' wx:else></image> 
@@ -47,21 +48,7 @@
           <image src='../../images/livebroad-xiaoren-ymz.png'></image> 
         </view> 
     </view> 
-</view> 
-<view class='modal' wx:if="{{showModalXuni}}"> 
-  <view class='modal-content'> 
-      <view class='close' bindtap='closeCard'> 
-        <image src='https://img.hongrenshuo.com.cn/h5/whitenovel-closemodal-ymz.png'></image> 
-      </view> 
-      <view class="tips-goApp"> 
-        <view class='title'>温馨提示</view> 
-        <view class='line'>暂不支持观看虚拟直播</view> 
-        <view class="line">程序猿大大正在努力开发中</view> 
-        <view class='line'>去看看其他直播间吧</view> 
-        <view class='goAppBtn' bindtap='closeCard'>我知道了</view> 
-      </view> 
-  </view> 
-</view> 
+</view>  
 <view class='modal' wx:if="{{showModalFufei}}"> 
   <view class='modal-content'> 
       <view class='close' bindtap='closeCard'> 
@@ -88,4 +75,7 @@
         <view class='goAppBtn' bindtap='closeCard'>我知道了</view> 
       </view> 
   </view> 
+</view>
+<view class="modal1" wx:if="{{showYin}}" bindtap='closeModal1'>
+  <image src='https://img.hongrenshuo.com.cn/h5/livebroad-saveyin-ymz.png' class='saveyin'></image>
 </view>

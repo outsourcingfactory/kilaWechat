@@ -81,6 +81,7 @@ function getToken(page, jsonObj) {
           wx.setStorageSync("level", res.data.data.level);
           wx.setStorageSync("avatar", res.data.data.headPortraitUrl);
           if (page == 'index') {
+            console.log(jsonObj)
             wx.redirectTo({
               url: '../index/index?jsonObj=' + jsonObj
             })

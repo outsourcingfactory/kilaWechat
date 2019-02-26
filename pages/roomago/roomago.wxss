@@ -4,6 +4,15 @@
   width: 100%;
   height: 100%;
   position: relative;
+  /* padding-top: 128rpx;
+  box-sizing: border-box; */
+}
+.bgImagePic{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 .conBG{
   width: 100%;
@@ -50,8 +59,17 @@ image {
   height: 66rpx;
 }
 .topRight {
+  display: flex;
+  align-items: center;
+}
+.kelalogoImage{
   width: 120rpx;
   height: 34rpx;
+}
+.closeRoom{
+  width: 36rpx;
+  height: 36rpx;
+  margin-left: 6rpx;
 }
 .topLeft {
   background: rgba(0, 0, 0, 0.5);
@@ -257,12 +275,11 @@ image {
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 0 24rpx;
   position: fixed;
   left: 0;
   z-index: 100;
-  /* bottom: 24rpx; */
 }
 .bottomTop{
   background: #fff;
@@ -1455,6 +1472,8 @@ image {
 }
 .content1{
   background: none;
+  padding-top: 152rpx;
+  box-sizing: border-box;
   position: absolute;
   left: 0rpx;
   top: 0rpx;

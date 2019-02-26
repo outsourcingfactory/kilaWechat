@@ -67,8 +67,6 @@ Page({
     showshare: '',
     diamond: '',  //左上角钻石
     watchNum: '',  //观看人数
-    oneMan: false,  //是一个人
-    inputFocus: false,
     bigGift: '',
     funcType: 7, //直播间类型 7是虚拟直播间
     roomscheme: '',  //直播间schmeme
@@ -100,44 +98,7 @@ Page({
       url: '../goshare/goshare'
     })
   },
-  foucus: function (e) {
-    var that = this;
-    that.setData({
-      bottom: e.detail.height,
-      // gofoucus: true
-    })
-  },
-  /**
-     * 将焦点给到 input（在真机上不能获取input焦点）
-     */
-  tapInput: function () {
-    if (this.data.inputFocus) {
-      return
-    }
-    this.setData({
-      //在真机上将焦点给input
-      inputFocus: true,
-      //初始占位清空
-      searchinput: ''
-    });
-  },
-  //失去聚焦
-  blur: function (e) {
-    var that = this;
-    if (this.data.isIphoneX) {
-      that.setData({
-        bottom: 34,
-        inputFocus: false,
-        searchinput: e.detail.value || '说点什么..'
-      })
-    } else {
-      that.setData({
-        bottom: 12,
-        inputFocus: false,
-        searchinput: e.detail.value || '说点什么..'
-      })
-    }
-  },
+  
   // 获取主播个人信息
   getboUserFun: function () {
     var url = config.getUrl.getHongdouUser;
@@ -188,15 +149,6 @@ Page({
       }
     })
   },
-  chooseGift: function (e) {
-    if (e.currentTarget.dataset.index == 0) {
-      this.getloadToastNum(4);
-    } else {
-      this.setData({
-        chooseGiftIndex: e.currentTarget.dataset.index
-      })
-    }
-  },
   // 进入直播间动画结束回调
   animationend: function (e) {
     var getGoRoomPeople = this.curtail(this.data.getGoRoomPeople);
@@ -215,94 +167,6 @@ Page({
   animationendBiggift: function () {
     this.setData({
       bigGift: ''
-    })
-  },
-  /**
-   * 点击发送礼物
-   */
-  goSendGift: function () {
-    let that = this;
-    if (this.data.isForbid) {
-      wx.showToast({
-        title: '你已被拉黑，无法送礼物',
-        icon: 'none',
-        duration: 1500
-      })
-      return
-    }
-    // 红豆不够不能创建
-    if (this.data.giftDataList[this.data.chooseGiftIndex].price > this.data.gold) {
-      wx.showModal({
-        title: '提示',
-        content: '红豆不足，是否去充值',
-        success(res) {
-          if (res.confirm) {
-            that.goOrder();
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
-        }
-      })
-      return
-    }
-    //先创建订单
-    var url = config.getUrl.createOrder;
-    var params = {
-      receiveId: this.data.roomDetail.userInfo.id,
-      orderType: 2,
-      goodsId: this.data.giftDataList[this.data.chooseGiftIndex].id,
-      roomId: this.data.roomid
-    }
-    var header = {
-      'token': this.data.token
-    }
-    return wxRequest.postRequest(url, params, header).then(res => {
-      console.log(res.data)
-      if (res.data.code == 200) {
-        // 发送im消息
-        let gift = this.data.giftDataList[this.data.chooseGiftIndex];
-        let name = gift.name;
-        let pic = gift.pic;
-        let price = gift.price;
-        let txtMsg = LiveRoomFactory.getSendGiftDataJson(this.data.uid, this.data.nickname, this.data.avatar, name, pic, price, this.data.mylevel, this.data.giftDataList[this.data.chooseGiftIndex].id);
-        txtMsg = JSON.stringify(txtMsg);
-        var userMessage = this.buildGiftMessage(txtMsg);
-        this.postSyncMessage(userMessage);
-        this.setData({
-          showBottom: false
-        })
-      } else {
-        wx.showToast({
-          title: res.data.msg,
-          icon: 'none',
-          duration: 1500,
-        })
-      }
-    })
-
-  },
-  // 检查是否禁言
-  checkUser: function () {
-    var url = config.getUrl.checkUser;
-    var params = {
-      uid: this.data.uid,
-      roomId: this.data.roomid
-    }
-    var header = {
-      'token': this.data.token,
-    }
-    return wxRequest.getRequest(url, params, header).then(res => {
-      if (res.data.code == 200) {
-        this.setData({
-          isForbid: res.data.data.isForbid
-        })
-      } else {
-        wx.showToast({
-          title: res.data.msg,
-          icon: 'none',
-          duration: 1500,
-        })
-      }
     })
   },
   getloadToast: function (e) {
@@ -357,11 +221,11 @@ Page({
   onLoad: function (options) {
     let that = this;
     this.setData({
-      roomid: options.roomid || '1237493259224219696',
+      roomid: options.roomid || '1236353705616343105',
       //1237493259224219696 视频直播间
       // 1223639129246400575 虚拟直播间
       // 1237555201242562793 普通直播间
-      // roomid:'1236353705616343105'
+      // roomid:'1223639129246400575'
     })
     // 不存在roomid的处理逻辑
     if (!this.data.roomid) {
@@ -401,14 +265,6 @@ Page({
     this.getRoomMessage(parseInt(this.data.currentTime/1000)*1000);
     this.getDou();
     this.getRank();
-    this.checkUser();
-    // 直播间关闭
-        // that.getRoomDetail();
-        // that.setData({
-        //   shouGoList: true,
-        //   showEndCard: true
-        // })
-    // that.inputmessage(datamm.body.response);
   },
 
   /**
@@ -574,170 +430,6 @@ Page({
       }
     })
   },
-  /**
-   * 页面展示用户发的信息
-   */
-  inputmessage: function (data) { 
-    if (data.content) {
-      var content = JSON.parse(data.content);
-      if (data.content != '') {
-        // 普通评论
-        if (content.t && content.t == 200) {
-          // console.log(content)
-          var dataArray = this.data.dataList;
-          dataArray.push(content)
-          this.setData({
-            dataList: dataArray
-          })
-        }
-        // 首次点赞
-        if (content.t && content.t == 211) {
-          var dataArray = this.data.dataList;
-          dataArray.push(content)
-          this.setData({
-            dataList: dataArray
-          })
-        }
-        // 被拉黑了
-        if (content.t && content.t == 600) {
-          this.checkUser();
-        }
-        // 排行榜变化
-        if (content.t && content.t == 635) {
-          console.log('排行榜发声变化')
-          this.getRank();
-        }
-        // 人数 钻石发生变化
-        if (content.t && content.t == 637) {
-          this.getRank();
-        }
-        // 守护榜发声了变化
-        if (content.t && content.t == 635) {
-          this.getRank();
-        }
-        //直播内关注
-        if (content.t && content.t == 230) {
-          var dataArray = this.data.dataList;
-          dataArray.push(content)
-          this.setData({
-            dataList: dataArray
-          })
-        }
-        // 礼物
-        if (content.t && content.t == 220) {
-          // 大礼物
-          //逃之夭夭：1026
-          //告白气球：15434
-          //梦の契约：15467
-          //月华灼灼：1065
-          //天空之城：72
-          //恶魔之眼：73
-          // if (content.c.id == 73 || content.c.id == 72 || content.c.id == 1026 || content.c.id == 1065){
-          if (content.c.id == 1026 || content.c.id == 15434 || content.c.id == 15467 || content.c.id == 1065 || content.c.id == 72 || content.c.id == 73) {
-            this.setData({
-              bigGift: ''
-            })
-            var bigGift = this.data.bigGift;
-            this.setData({
-              bigGift: content
-            })
-            console.log(content);
-            // 放到队列
-            var dataArray = this.data.dataList;
-            dataArray.push(content)
-            this.setData({
-              dataList: dataArray
-            })
-          } else {
-             
-            this.setData({
-              giftList: ''
-            })
-            this.setData({
-              // giftList: giftArray
-              giftList: content
-            })
-            console.log(this.data.giftList);
-            if (content.c.isDoubleHit && content.c.doubleCount != 1) {
-              return
-            }
-            var dataArray = this.data.dataList;
-            dataArray.push(content)
-            this.setData({
-              dataList: dataArray
-            })
-          }
-
-        }
-        // 进入直播间  101 普通用户  603特权用户
-        if (content.t && content.t == 101 || content.t == 603) {
-          var dataArray = this.data.getGoRoomPeople;
-          // 堆积过多先展示第一个
-          if (dataArray.length > 2) {
-            dataArray.unshift(content);
-          } else {
-            dataArray.push(content)
-          }
-          this.setData({
-            getGoRoomPeople: dataArray
-          })
-        }
-        if (content.t && content.t == 220 || content.t == 230 || content.t == 200 || content.t == 211) {
-          // wx.createSelectorQuery().select('#messageList').boundingClientRect(function (rect) {
-          //   console.log(rect.height * 2 + 10000)
-          //   // 使页面滚动到底部
-          //   wx.pageScrollTo({
-          //     scrollTop: rect.height*2+10000,
-          //     duration: 500
-          //   })
-          // }).exec()
-
-          // 删除掉一半的数据
-          var dataSplice = this.data.dataList;
-          if (this.data.funcType == 7) {
-            if (dataSplice.length > 10) {
-              dataSplice.splice(0, 6)
-            }
-          } else {
-            if (dataSplice.length > 400) {
-              dataSplice.splice(0, 200)
-            }
-          }
-          this.setData({
-            dataList: dataSplice
-          })
-        }
-      }
-    }
-  },
-  /**
-   * 消费礼物队列
-   */
-  littGift: function () {
-    if (this.data.giftList == 0) {
-      return
-    }
-    //动画效果
-    const animation = wx.createAnimation({
-      duration: 2000,
-      timingFunction: 'linear',
-    })
-    this.animation = animation
-    animation.opacity(0).step({
-      duration: 1000
-    })
-    animation.opacity(1).step({
-      duration: 1000
-    })
-    this.setData({
-      animationDataGift: animation.export()
-    })
-    // 删除数组的第一个元素
-    var giftList = this.curtail(this.data.giftList);
-    this.setData({
-      giftList: giftList
-    })
-  },
   curtail: function (arr) {
     var m = arr.slice(0);
     m.shift();
@@ -810,7 +502,7 @@ Page({
   onShareAppMessage: function () {
     let userInfo = wx.getStorageSync('userInfo');
     return {
-      title: userInfo.nickName + '邀你一起前往' + this.data.roomDetail.userInfo.nickname + '的直播间',
+      title: this.data.roomDetail.title,
       path: '/pages/index/index?type=room&roomid=' + this.data.roomid,
       imageUrl: this.data.roomDetail.backPic
     }
@@ -897,7 +589,6 @@ Page({
    * 获取礼物列表
    */
   getGiftList: function () {
-
     var url = config.getUrl.getGoodsList;
     var params = {
       'type': 1,
@@ -961,11 +652,6 @@ Page({
       console.log(res.data)
       if (res.data.code == 200) {
         console.log(res.data);
-        if (res.data.data.userInfo.id == this.data.uid) {
-          this.setData({
-            oneMan: true,
-          })
-        }
         // 付费直播间
         if (this.data.roomDetail.price > 0) {
           this.setData({
@@ -977,6 +663,9 @@ Page({
           roomDetail: res.data.data,
           funcType: res.data.data.funcType,   //虚拟直播间标识
           roomStatus: res.data.data.status // 直播间状态 1 直播前 4 直播中 10 直播正常结束  19 已删除 不在客户端显示
+        })
+        wx.setNavigationBarTitle({
+          title: this.data.roomDetail.title
         })
         // 预告直播间
         if (this.data.roomDetail.status == 1) {

@@ -5,7 +5,7 @@ import getToken from '../../utils/util'
 import wxRequest from '../../utils/wxRequest'
 import config from '../../utils/config'
 let isIphoneX = app.globalData.isIphoneX;
-var token
+var token;
 Page({
   data: {
     hotType: 0, //热门标签 0
@@ -20,7 +20,8 @@ Page({
     showModalXuni:false,   //虚拟弹唱
     oneMan: false,  //是一个人
     isIphoneX: false,
-    showModalFufei:false
+    showModalFufei:false,
+    showYin:false // 引导保存弹层
   },
   closeCard:function(){
     this.setData({
@@ -29,29 +30,33 @@ Page({
       showModalFufei:false
     })
   },
+  closeModal1:function(){
+    wx.setStorageSync("showYin", true);
+    this.setData({
+      showYin: false
+    })
+  },
   onLoad: function(options) {
     console.log(options);
-    if (options.token) {
-      token = options.token;
-    } else {
-      token = wx.getStorageSync('token');
+    if (!options){
+      options = {};
     }
+    token = wx.getStorageSync('token');
     if (!token) {
       // 传参到验证页面
       var jsonObj = JSON.stringify(options);
       getToken.getToken('index', jsonObj);
-      return
     } else {
       wx.showToast({
         title: '加载中',
         icon: 'loading',
-        duration: 10000
+        duration: 5000
       });
+      console.log(options);
+      // 从端内或者二次分享
       if (options.type == 'room') {
-        wx.navigateTo({
-          url: '../roomdetail/roomdetail?roomid=' + options.roomid
-        })
-      } else if (options.jsonObj) {
+        this.getRoomDetail(options.roomid)
+      } else if (options.jsonObj && options.jsonObj != 'undefined') {
         // 从验证页面跳过来带参数
         var jsonObj = JSON.parse(options.jsonObj);
         if (jsonObj.type == 'room') {
@@ -85,15 +90,8 @@ Page({
   },
   // 跳转直播间
   goDetail: function(e) {
-    var functype = e.currentTarget.dataset.functype;
     var uid = e.currentTarget.dataset.id;
     var price = e.currentTarget.dataset.price;
-    // if (functype == 7){
-    //   this.setData({
-    //     showModalXuni: true,
-    //   })
-    //   return
-    // }
     if (price > 0) {
       this.setData({
         showModalFufei: true,
@@ -106,8 +104,6 @@ Page({
       })
       return
     }
-    
-
     wx.navigateTo({
       url: '../roomdetail/roomdetail?roomid=' + e.currentTarget.dataset.roomid
     })
@@ -188,7 +184,13 @@ Page({
               })
             }
           }
-          console.log(this.data.roomList);
+          // 展示引导层
+          var showYin = wx.getStorageSync('showYin');
+          if (!showYin){
+            this.setData({
+              showYin:true
+            })
+          }
         } else {
           wx.showToast({
             title: res.data.msg,

@@ -392,7 +392,7 @@ Page({
       })
     }else{
       this.setData({
-        roomid: options.roomid || '1227778498467201122',
+        roomid: options.roomid || '1240777887003443226',
         showshare: options.showshare || '',
         // roomid:'1236353705616343105'
       })
@@ -439,6 +439,8 @@ Page({
     this.getDou();
     this.getRank();
     this.checkUser();
+    // 拉取直播间之前的30条信息
+    this.getLastMessage();
     // socket = io('ws://47.94.56.91:12585/live_chat_room?access_token=' + this.data.selfImToken + '&roomId=' + that.data.roomid, {
     socket = io('wss://wim.hongdoufm.com/live_chat_room?access_token=' + this.data.selfImToken + '&roomId=' + that.data.roomid, {
       'rememberUpgrade': true,
@@ -479,6 +481,44 @@ Page({
       socket.disconnect();
     });
   
+  },
+  // 进来获取前30条聊天数据
+  getLastMessage:function(){
+    var url = 'https://hongrenshuo.com.cn/api/v11/message/latest/batch/get';
+    var params = {
+      roomId: this.data.roomid,
+      bizType: 4,
+      pageSize: 30,
+      pageNo:1
+    }
+    var header = {
+
+    }
+    return wxRequest.getRequest(url, params, header).then(res => {
+      console.log(res.data);
+      if (res.data.h.code == 200) {
+        var messDataGet = res.data.b.data;
+        var messDataArray = [];
+        for (var i = 0; i < messDataGet.length; i++) {
+          messDataGet[i].content = JSON.parse(messDataGet[i].content);
+          messDataArray.push(messDataGet[i].content);
+        }
+        // this.setData({
+        //   messageData: this.data.messageData.concat(messDataGet),
+        //   canGetMessage: true
+        // })
+        this.setData({
+          dataList: messDataArray
+        })
+        console.log(this.data.dataList)
+      } else {
+        wx.showToast({
+          title: res.data.h.msg,
+          icon: 'none',
+          duration: 1500,
+        })
+      }
+    })
   },
   /**
    * 关闭礼物弹窗
@@ -902,7 +942,7 @@ Page({
   onShareAppMessage: function() {
     let userInfo = wx.getStorageSync('userInfo');
     return {
-      title: userInfo.nickName + '邀你一起前往' + this.data.roomDetail.userInfo.nickname + '的直播间',
+      title: this.data.roomDetail.title,
       path: '/pages/index/index?type=room&roomid='+this.data.roomid,
       imageUrl: this.data.roomDetail.backPic
     }
@@ -1079,6 +1119,9 @@ Page({
           roomDetail: res.data.data,
           funcType: res.data.data.funcType,   //虚拟直播间标识
           roomStatus: res.data.data.status // 直播间状态 1 直播前 4 直播中 10 直播正常结束  19 已删除 不在客户端显示
+        })
+        wx.setNavigationBarTitle({
+          title: this.data.roomDetail.title
         })
         this.getGiftList();
         // 判断是否关注
