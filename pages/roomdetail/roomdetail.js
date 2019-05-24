@@ -75,7 +75,7 @@ Page({
     oneMan:false,  //是一个人
     inputFocus:false,
     bigGift:'',
-    funcType:7, //直播间类型 7是虚拟直播间
+    funcType:'', //直播间类型 7是虚拟直播间
     roomscheme:'',  //直播间schmeme
     roomNoOpen:false,
     boTime:'',
@@ -392,7 +392,7 @@ Page({
       })
     }else{
       this.setData({
-        roomid: options.roomid || '1240777887003443226',
+        roomid: options.roomid || '1240803085576568924',
         showshare: options.showshare || '',
         // roomid:'1236353705616343105'
       })
@@ -484,6 +484,7 @@ Page({
   },
   // 进来获取前30条聊天数据
   getLastMessage:function(){
+    let that = this;
     var url = 'https://hongrenshuo.com.cn/api/v11/message/latest/batch/get';
     var params = {
       roomId: this.data.roomid,
@@ -497,16 +498,27 @@ Page({
     return wxRequest.getRequest(url, params, header).then(res => {
       console.log(res.data);
       if (res.data.h.code == 200) {
+        if (res.data.b.data.length == 0){
+          return
+        }
         var messDataGet = res.data.b.data;
         var messDataArray = [];
-        for (var i = 0; i < messDataGet.length; i++) {
+        for (var i = 0; i < messDataGet.length-1; i++) {
           messDataGet[i].content = JSON.parse(messDataGet[i].content);
           messDataArray.push(messDataGet[i].content);
         }
-        // this.setData({
-        //   messageData: this.data.messageData.concat(messDataGet),
-        //   canGetMessage: true
-        // })
+        this.setData({
+          dataList: messDataArray
+        })
+        
+        var setNum = setTimeout(function(){
+          var dataArray = that.data.dataList;
+          dataArray.push(JSON.parse(messDataGet[messDataGet.length - 1].content))
+          that.setData({
+            dataList: dataArray
+          })
+          console.log(that.data.dataList);
+        },600)
         this.setData({
           dataList: messDataArray
         })
